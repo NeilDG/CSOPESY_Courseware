@@ -1,0 +1,21 @@
+root
+	level_2
+		File_1.txt
+	level_8
+		File_2.txt
+	level_5
+		File_3.txt
+		File_6.txt
+		File_10.txt
+	level_1
+		File_4.txt
+	level_10
+		File_5.txt
+	level_5
+	level_9
+		File_7.txt
+		File_8.txt
+	level_9
+	level_3
+		File_9.txt
+	level_5

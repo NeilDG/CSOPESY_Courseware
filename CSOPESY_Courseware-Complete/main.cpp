@@ -40,10 +40,9 @@ void DisplayCSOPESY(HANDLE consoleHandle) {
 int main()
 {
     FileSystem::initialize();
-    // FileSystem::getInstance()->test_createRandomFiles(100);
-    // FileSystem::getInstance()->saveFileSystem();
+    FileSystem::getInstance()->test_createRandomFiles(1000);
+    FileSystem::getInstance()->saveFileSystem();
     FileSystem::getInstance()->loadFileSystem();
-
     ConsoleManager::initialize();
     
     bool running = true;

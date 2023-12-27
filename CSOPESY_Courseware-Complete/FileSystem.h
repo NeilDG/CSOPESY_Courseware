@@ -50,6 +50,7 @@ public:
 	void saveFileSystem() const;
 
 	std::shared_ptr<Directory> createDirectory(const std::string& dirname, bool isRoot = false);
+	void createDirectoryFromRegistry(const std::string& dirname, bool isRoot = false) const;
 	void saveDirectoryStructure(std::ostream& stream, std::shared_ptr<Directory> dir, int depth) const;
 	std::shared_ptr<Directory> findSubdirectoryByName(std::shared_ptr<Directory> parent, const std::string& name) const;
 

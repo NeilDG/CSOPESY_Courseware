@@ -37,7 +37,7 @@ void FileSystem::loadFileSystem()
     if (file.is_open()) {
         std::string line;
         while (std::getline(file, line)) {
-            createDirectory(line);
+            this->createDirectoryFromRegistry(line);
         }
         file.close();
         std::cout << "Loaded file system. \n";
@@ -70,6 +70,34 @@ std::shared_ptr<Directory> FileSystem::createDirectory(const std::string& dirnam
     }
     else
     {
+        std::shared_ptr<Directory> directory = this->findSubdirectoryByName(this->currentDirectory, dirname);
+        if(directory == nullptr)
+        {
+            std::shared_ptr<Directory> newDir = std::make_shared<Directory>(dirname, currentDirectory);
+            currentDirectory->subDirectories.push_back(newDir);
+            return newDir;
+        }
+        else
+        {
+            return directory;
+        }
+    }
+}
+
+/**
+ * \brief Used for assembling the directory read from the .csopesy file
+ * \param dirname 
+ * \param isRoot 
+ */
+void FileSystem::createDirectoryFromRegistry(const std::string& dirname, bool isRoot) const
+{
+    std::cout << "What's the dir? " << dirname << std::endl;
+    if (isRoot || dirname == "root")
+    {
+        std::shared_ptr<Directory> newDir = std::make_shared<Directory>(dirname);
+    }
+    else
+    {
         // std::shared_ptr<Directory> directory = this->findSubdirectoryByName(this->currentDirectory, dirname);
         // if(directory == nullptr)
         // {
@@ -94,7 +122,7 @@ std::shared_ptr<Directory> FileSystem::createDirectory(const std::string& dirnam
         std::shared_ptr<Directory> currentDir = isRoot ? rootDirectory : currentDirectory;
 
         // Process all tokens except the last two because it always ends with a filename and its contents.
-        for (size_t i = 0; i < tokens.size() - 2; ++i)
+        for (size_t i = 0; i < tokens.size() - 2; i++)
         {
             std::shared_ptr<Directory> directory = findSubdirectoryByName(currentDir, tokens[i]);
 
@@ -115,8 +143,6 @@ std::shared_ptr<Directory> FileSystem::createDirectory(const std::string& dirnam
         std::shared_ptr<File> newFile = std::make_shared<File>(fileName);
         newFile->setContents(fileContents);
         currentDir->files.push_back(newFile);
-
-        return currentDir;
     }
 }
 

@@ -25,8 +25,6 @@ bool ConsoleManager::drawConsole() const
 {
 	if(this->currentConsole != nullptr)
 	{
-		// Clear the screen
-		system("cls");
 		this->currentConsole->display();
 		return this->currentConsole->processCommand();
 	}

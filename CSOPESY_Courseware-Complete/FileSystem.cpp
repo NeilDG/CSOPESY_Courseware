@@ -62,6 +62,7 @@ void FileSystem::saveFileSystem() const
 
 std::shared_ptr<Directory> FileSystem::createDirectory(const std::string& dirname, bool isRoot)
 {
+    std::cout << "What's the dir? " << dirname << std::endl;
     if(isRoot || dirname == "root")
     {
         std::shared_ptr<Directory> newDir = std::make_shared<Directory>(dirname);
@@ -69,17 +70,53 @@ std::shared_ptr<Directory> FileSystem::createDirectory(const std::string& dirnam
     }
     else
     {
-        std::shared_ptr<Directory> directory = this->findSubdirectoryByName(this->currentDirectory, dirname);
-        if(directory == nullptr)
+        // std::shared_ptr<Directory> directory = this->findSubdirectoryByName(this->currentDirectory, dirname);
+        // if(directory == nullptr)
+        // {
+        //     std::shared_ptr<Directory> newDir = std::make_shared<Directory>(dirname, currentDirectory);
+        //     currentDirectory->subDirectories.push_back(newDir);
+        //     return newDir;
+        // }
+        // else
+        // {
+        //     return directory;
+        // }
+
+        std::vector<std::string> tokens;
+        std::istringstream tokenStream(dirname);
+        std::string token;
+
+        while (std::getline(tokenStream, token, '/'))
         {
-            std::shared_ptr<Directory> newDir = std::make_shared<Directory>(dirname, currentDirectory);
-            currentDirectory->subDirectories.push_back(newDir);
-            return newDir;
+            tokens.push_back(token);
         }
-        else
+
+        std::shared_ptr<Directory> currentDir = isRoot ? rootDirectory : currentDirectory;
+
+        // Process all tokens except the last two because it always ends with a filename and its contents.
+        for (size_t i = 0; i < tokens.size() - 2; ++i)
         {
-            return directory;
+            std::shared_ptr<Directory> directory = findSubdirectoryByName(currentDir, tokens[i]);
+
+            if (directory == nullptr)
+            {
+                std::shared_ptr<Directory> newDir = std::make_shared<Directory>(tokens[i], currentDir);
+                currentDir->subDirectories.push_back(newDir);
+                currentDir = newDir;
+            }
+            else
+            {
+                currentDir = directory;
+            }
         }
+
+        std::string fileName = tokens[tokens.size() - 2]; //file name
+        std::string fileContents = tokens[tokens.size() - 1]; //contents
+        std::shared_ptr<File> newFile = std::make_shared<File>(fileName);
+        newFile->setContents(fileContents);
+        currentDir->files.push_back(newFile);
+
+        return currentDir;
     }
 }
 
@@ -152,10 +189,10 @@ void FileSystem::cd(const std::string& directory)
 
 void FileSystem::printAllDirectories(bool printFiles) const
 {
-    this->printAllDirectories(std::cout, this->rootDirectory, 0, printFiles);
+    this->printAllDirectories(std::cout, this->rootDirectory, printFiles);
 }
 
-void FileSystem::printAllDirectories(std::ostream& stream, std::shared_ptr<Directory> dir, int depth, bool printFiles) const
+void FileSystem::printAllDirectories(std::ostream& stream, std::shared_ptr<Directory> dir, bool printFiles) const
 {
     if (dir) {
         // Print current directory
@@ -171,7 +208,7 @@ void FileSystem::printAllDirectories(std::ostream& stream, std::shared_ptr<Direc
 
         // Print subdirectories
         for (const auto& subDir : dir->subDirectories) {
-            printAllDirectories(stream, subDir, depth + 1, printFiles);
+            printAllDirectories(stream, subDir, printFiles);
         }
     }
 }

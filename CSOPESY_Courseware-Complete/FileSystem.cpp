@@ -1,6 +1,7 @@
 #include "FileSystem.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 #include "MathUtils.h"
 
@@ -61,7 +62,7 @@ void FileSystem::saveFileSystem() const
 
 std::shared_ptr<Directory> FileSystem::createDirectory(const std::string& dirname, bool isRoot)
 {
-    if(isRoot)
+    if(isRoot || dirname == "root")
     {
         std::shared_ptr<Directory> newDir = std::make_shared<Directory>(dirname);
         return newDir;
@@ -79,7 +80,6 @@ std::shared_ptr<Directory> FileSystem::createDirectory(const std::string& dirnam
         {
             return directory;
         }
-        
     }
 }
 
@@ -87,7 +87,9 @@ void FileSystem::saveDirectoryStructure(std::ostream& stream, std::shared_ptr<Di
 {
     if (dir) {
         // Indent based on depth
-        stream << std::string(depth, '\t') << dir->name << "\n";
+        // stream << std::string(depth, '\t') << dir->name << "\n";
+        //Add delimiter
+        stream << dir->name << "/";
 
         // Save subdirectories
         for (const auto& subDir : dir->subDirectories) {
@@ -96,7 +98,8 @@ void FileSystem::saveDirectoryStructure(std::ostream& stream, std::shared_ptr<Di
 
         // Save files
         for (const auto& file : dir->files) {
-            stream << std::string(depth + 1, '\t') << file->getContent() << "\n";
+            // stream << std::string(depth + 1, '\t') << file->getContent() << "\n";
+            stream << file->getName() << "/" << file->getContent() << "\n";
         }
     }
 }

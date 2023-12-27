@@ -56,6 +56,7 @@ int main()
     FileSystem::initialize();
     FileSystem::getInstance()->test_createRandomFiles(100);
     FileSystem::getInstance()->saveFileSystem();
+    // FileSystem::getInstance()->loadFileSystem();
 
     //console proper
     const HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);

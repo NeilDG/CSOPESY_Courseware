@@ -14,6 +14,9 @@
     <ClCompile Include="IETThread.cpp">
       <Filter>Threading</Filter>
     </ClCompile>
+    <ClCompile Include="MathUtils.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FileSystem">
@@ -24,6 +27,9 @@
     </Filter>
     <Filter Include="Threading">
       <UniqueIdentifier>{b184a0a0-f048-43df-9c81-f60eb05a6870}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{c42173ff-c601-4618-b100-680484160751}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -41,6 +47,9 @@
     </ClInclude>
     <ClInclude Include="IETThread.h">
       <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="MathUtils.h">
+      <Filter>Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

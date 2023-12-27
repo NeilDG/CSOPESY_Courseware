@@ -54,7 +54,7 @@ void DisplayCSOPESY(HANDLE consoleHandle) {
 int main()
 {
     FileSystem::initialize();
-    FileSystem::getInstance()->test_createRandomFiles(10);
+    FileSystem::getInstance()->test_createRandomFiles(100);
     FileSystem::getInstance()->saveFileSystem();
 
     //console proper
@@ -62,7 +62,7 @@ int main()
     // Clear the screen
     system("cls");
 
-    SetConsoleWindowSize(80, 25);
+    // SetConsoleWindowSize(80, 25);
     DisplayCSOPESY(consoleHandle);
 
     if(consoleHandle == INVALID_HANDLE_VALUE)

@@ -56,5 +56,6 @@ private:
 	std::shared_ptr<Directory> currentDirectory;
 
 	void printAllDirectories(std::ostream& stream, std::shared_ptr<Directory> dir, int depth, bool printFiles) const;
+	void createRandomFilesRecursive(int fileCounter, int depth);
 };
 

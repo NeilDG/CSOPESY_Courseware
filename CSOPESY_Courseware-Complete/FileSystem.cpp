@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 
+#include "MathUtils.h"
+
 FileSystem* FileSystem::sharedInstance = nullptr;
 
 FileSystem* FileSystem::getInstance()
@@ -63,9 +65,18 @@ std::shared_ptr<Directory> FileSystem::createDirectory(const std::string& dirnam
     }
     else
     {
-        std::shared_ptr<Directory> newDir = std::make_shared<Directory>(dirname, currentDirectory);
-        currentDirectory->subDirectories.push_back(newDir);
-        return newDir;
+        std::shared_ptr<Directory> directory = this->findSubdirectoryByName(this->currentDirectory, dirname);
+        if(directory == nullptr)
+        {
+            std::shared_ptr<Directory> newDir = std::make_shared<Directory>(dirname, currentDirectory);
+            currentDirectory->subDirectories.push_back(newDir);
+            return newDir;
+        }
+        else
+        {
+            return directory;
+        }
+        
     }
 }
 
@@ -97,7 +108,7 @@ std::shared_ptr<Directory> FileSystem::findSubdirectoryByName(std::shared_ptr<Di
 
 FileSystem::String FileSystem::generateRandomDirectoryName() const
 {
-    return "level_" + std::to_string(rand() % 10 + 1);
+    return "folder_" + std::to_string(rand() % 10 + 1);
 }
 
 void FileSystem::mkdir(const std::string& directory)
@@ -142,11 +153,14 @@ void FileSystem::printAllDirectories(std::ostream& stream, std::shared_ptr<Direc
 {
     if (dir) {
         // Print current directory
-        stream << std::string(depth, '\t') << dir->name << "\n";
+        stream << dir->name << "/";
 
         // Print files in the current directory
-        for (const auto& file : dir->files) {
-            stream << std::string(depth + 1, '\t') << file << "\n";
+        if(printFiles)
+        {
+            for (const auto& file : dir->files) {
+                stream << file << "\n";
+            }
         }
 
         // Print subdirectories
@@ -156,18 +170,31 @@ void FileSystem::printAllDirectories(std::ostream& stream, std::shared_ptr<Direc
     }
 }
 
+void FileSystem::createRandomFilesRecursive(int fileCounter, int depth)
+{
+    if (depth <= 0 || MathUtils::chanceHit(90)) { //X% chance
+        // Create a file
+        std::string randomFile = "f_" + std::to_string(fileCounter) + ".txt";
+        this->createFile(randomFile);
+    }
+    else {
+        // Create a subdirectory
+        std::string randomDir = generateRandomDirectoryName();
+        mkdir(randomDir);
+        cd(randomDir);
+
+        // Recursively create files and subdirectories in the new directory
+        createRandomFilesRecursive(fileCounter, depth - 1);
+
+        // Move back to the parent directory
+        cd("..");
+    }
+}
+
 void FileSystem::test_createRandomFiles(int howMany)
 {
     for (int i = 0; i < howMany; i++) {
-        std::string randomDir = generateRandomDirectoryName();
-        this->mkdir(randomDir);
-        this->cd(randomDir);
-
-        std::string randomFile = "File_" + std::to_string(i + 1) + ".txt";
-        this->createFile(randomFile);
-
-        // Move back to the root directory
-        this->cd("..");
+        this->createRandomFilesRecursive(i, 5);
     }
 }
 

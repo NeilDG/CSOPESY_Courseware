@@ -128,19 +128,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AConsole.cpp" />
+    <ClCompile Include="ConsoleManager.cpp" />
     <ClCompile Include="EventBroadcaster.cpp" />
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="IETSemaphore.cpp" />
     <ClCompile Include="IETThread.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainConsole.cpp" />
+    <ClCompile Include="MarqueeConsole.cpp" />
     <ClCompile Include="MathUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AConsole.h" />
+    <ClInclude Include="ConsoleManager.h" />
     <ClInclude Include="EventBroadcaster.h" />
     <ClInclude Include="EventNames.h" />
     <ClInclude Include="FileSystem.h" />
     <ClInclude Include="IETSemaphore.h" />
     <ClInclude Include="IETThread.h" />
+    <ClInclude Include="MainConsole.h" />
+    <ClInclude Include="MarqueeConsole.h" />
     <ClInclude Include="MathUtils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -17,6 +17,18 @@
     <ClCompile Include="MathUtils.cpp">
       <Filter>Math</Filter>
     </ClCompile>
+    <ClCompile Include="ConsoleManager.cpp">
+      <Filter>ConsoleUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AConsole.cpp">
+      <Filter>ConsoleUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MarqueeConsole.cpp">
+      <Filter>ConsoleUI</Filter>
+    </ClCompile>
+    <ClCompile Include="MainConsole.cpp">
+      <Filter>ConsoleUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FileSystem">
@@ -30,6 +42,9 @@
     </Filter>
     <Filter Include="Math">
       <UniqueIdentifier>{c42173ff-c601-4618-b100-680484160751}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ConsoleUI">
+      <UniqueIdentifier>{5bf0bd30-be2d-463d-b1e9-056a5a7b08b1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -50,6 +65,18 @@
     </ClInclude>
     <ClInclude Include="MathUtils.h">
       <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleManager.h">
+      <Filter>ConsoleUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AConsole.h">
+      <Filter>ConsoleUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MarqueeConsole.h">
+      <Filter>ConsoleUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MainConsole.h">
+      <Filter>ConsoleUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

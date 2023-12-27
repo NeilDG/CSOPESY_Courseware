@@ -5,7 +5,9 @@
 #include <string>
 #include <Windows.h>
 #include <io.h>
+#include <tchar.h>
 
+#include "ConsoleManager.h"
 #include "FileSystem.h"
 
 //columns x rows
@@ -35,22 +37,6 @@ void DisplayCSOPESY(HANDLE consoleHandle) {
     std::cout << "Type 'exit' to quit, 'clear' to clear the screen " << std::endl;
 }
 
-// void CreateNewConsole(const std::string& command) {
-//     // Allocate a new console for the application
-//     AllocConsole();
-//
-//     // Open CONOUT$ for writing to the new console
-//     FILE* newStdout;
-//     freopen_s(&newStdout, "CONOUT$", "w", stdout);
-//
-//     // Duplicate file descriptors to redirect standard input and error
-//     _dup2(_fileno(newStdout), _fileno(stdout));
-//     _dup2(_fileno(newStdout), _fileno(stderr));
-//
-//     // Free the console when the application is done
-//     FreeConsole();
-// }
-
 int main()
 {
     FileSystem::initialize();
@@ -58,77 +44,12 @@ int main()
     FileSystem::getInstance()->saveFileSystem();
     // FileSystem::getInstance()->loadFileSystem();
 
-    //console proper
-    const HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-    // Clear the screen
-    system("cls");
+    ConsoleManager::initialize();
 
-    // SetConsoleWindowSize(80, 25);
-    DisplayCSOPESY(consoleHandle);
-
-    if(consoleHandle == INVALID_HANDLE_VALUE)
+    bool running = true;
+    while(running)
     {
-        std::cerr << "Error getting console handle \n";
-        return -1;
-    }
-    
-    // Reset console text attributes (optional) - evaluates to a (1, 1, 1) = white color
-    SetConsoleTextAttribute(consoleHandle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-
-    // Main loop
-    while (true) {
-        // Position the cursor at the bottom for user input
-        // const COORD bottomPosition = { 0, 24 };
-        // SetConsoleCursorPosition(consoleHandle, bottomPosition);
-
-        // Display prompt
-        std::cout << "Enter a command: ";
-
-        // Read user input
-        std::string command;
-        std::getline(std::cin, command);
-
-        // Check for exit condition
-        if (command == "exit") {
-            break;
-        }
-        else if (command == "clear" || command == "cls") {
-            // Clear the screen
-            system("cls");
-            // Redisplay "CSOPESY" ASCII art after clearing
-            DisplayCSOPESY(consoleHandle);
-
-            // Reset console text attributes (optional) - evaluates to a (1, 1, 1) = white color
-            SetConsoleTextAttribute(consoleHandle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-        }
-        else if (command.substr(0, 5) == "mkdir")
-        {
-            if(command.length() > 6)
-            {
-                std::string directoryPath = command.substr(6);
-                if (!directoryPath.empty())
-                {
-                    std::cout << "Make directory command recognized. Proposed path: " << directoryPath << std::endl;
-                }
-                else
-                {
-                    std::cerr << "Invalid mkdir command. Usage: mkdir <directory>" << std::endl;
-                }
-            }
-            else
-            {
-                std::cerr << "Invalid mkdir command. Usage: mkdir <directory>" << std::endl;
-            }
-            
-        }
-        else if(command == "dirlist")
-        {
-            FileSystem::getInstance()->printAllDirectories(true);
-        }
-        else {
-            // Simulate command execution
-            std::cout << "Executing command: " << command << std::endl;
-        }
+        running = !ConsoleManager::getInstance()->drawConsole();
     }
 
     return 0;

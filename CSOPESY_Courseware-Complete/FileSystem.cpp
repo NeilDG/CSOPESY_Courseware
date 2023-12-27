@@ -23,7 +23,10 @@ void FileSystem::destroy()
 
 void FileSystem::createFile(const std::string& fileName) const
 {
-    currentDirectory->files.push_back(fileName);
+    std::shared_ptr<File> newFile = std::make_shared<File>(fileName);
+    newFile->randomizeContent();
+    currentDirectory->files.push_back(newFile);
+
     std::cout << "File '" << fileName << "' created.\n";
 }
 
@@ -93,7 +96,7 @@ void FileSystem::saveDirectoryStructure(std::ostream& stream, std::shared_ptr<Di
 
         // Save files
         for (const auto& file : dir->files) {
-            stream << std::string(depth + 1, '\t') << file << "\n";
+            stream << std::string(depth + 1, '\t') << file->getContent() << "\n";
         }
     }
 }
@@ -159,7 +162,7 @@ void FileSystem::printAllDirectories(std::ostream& stream, std::shared_ptr<Direc
         if(printFiles)
         {
             for (const auto& file : dir->files) {
-                stream << file << "\n";
+                stream << file->getName() << "\n";
             }
         }
 
@@ -204,8 +207,45 @@ FileSystem::FileSystem()
     this->currentDirectory = this->rootDirectory;
 }
 
+
 Directory::Directory(String name, std::shared_ptr<Directory> parent)
 {
-	this->name = name;
-	this->parent = parent;
+    this->name = name;
+    this->parent = parent;
+}
+
+
+File::File(String fileName)
+{
+    this->name = fileName;
+    this->content = "";
+}
+
+void File::randomizeContent()
+{
+    // Generate a random string of length 50
+    std::string randomString;
+    const std::string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    const int stringLength = 50;
+
+    for (int i = 0; i < stringLength; ++i) {
+        randomString += characters[rand() % characters.length()];
+    }
+
+    this->setContents(randomString);
+}
+
+void File::setContents(const String& content)
+{
+    this->content = content;
+}
+
+File::String File::getName()
+{
+    return this->name;
+}
+
+File::String File::getContent()
+{
+    return this->content;
 }

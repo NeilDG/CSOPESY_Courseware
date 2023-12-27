@@ -3,6 +3,22 @@
 #include <string>
 #include <vector>
 
+class File
+{
+private:
+	typedef std::string String;
+	String name;
+	String content;
+	
+public:
+	File(String fileName);
+	void setContents(const String& content);
+
+	String getName();
+	String getContent();
+	void randomizeContent();
+};
+
 class Directory
 {
 private:
@@ -11,11 +27,12 @@ private:
 
 	std::shared_ptr<Directory> parent;
 	std::vector<std::shared_ptr<Directory>> subDirectories;
-	std::vector<std::string> files;
+	std::vector<std::shared_ptr<File>> files;
 
 public:
 	Directory(String name, std::shared_ptr<Directory> parent = nullptr);
 	friend class FileSystem;
+	friend class File;
 };
 
 class FileSystem

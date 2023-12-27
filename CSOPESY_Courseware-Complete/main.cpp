@@ -96,6 +96,9 @@ int main()
             system("cls");
             // Redisplay "CSOPESY" ASCII art after clearing
             DisplayCSOPESY(consoleHandle);
+
+            // Reset console text attributes (optional) - evaluates to a (1, 1, 1) = white color
+            SetConsoleTextAttribute(consoleHandle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
         }
         else if (command.substr(0, 5) == "mkdir")
         {

@@ -63,6 +63,9 @@ ConsoleManager::ConsoleManager()
 
 	this->switchConsole(MAIN_CONSOLE);
 
+	//initialize mutex
+	this->mutex = std::make_unique<IETSemaphore>(1);
+
 }
 
 void ConsoleManager::returnToPreviousConsole()
@@ -78,4 +81,16 @@ void ConsoleManager::returnToPreviousConsole()
 HANDLE ConsoleManager::getConsoleHandle() const
 {
 	return this->consoleHandle;
+}
+
+void ConsoleManager::setCursorPosition(int posX, int posY) const
+{
+	// this->mutex->acquire();
+
+	COORD coord;
+	coord.X = posX;
+	coord.Y = posY;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+
+	// this->mutex->release();
 }

@@ -6,33 +6,57 @@
 
 MarqueeConsole::MarqueeConsole() : AConsole(MARQUEE_CONSOLE)
 {
-    this->x = 0;
-    this->y = 4;
-    this->dx = 1;
-    this->dy = 1;
+    // this->x = 0;
+    // this->y = 4;
+    // this->dx = 1;
+    // this->dy = 1;
+
+    this->marqueeWorker = std::make_unique<MarqueeWorkerThread>(this->screenWidth, this->screenHeight, this->REFRESH_DELAY);
 }
 
 void MarqueeConsole::display()
 {
-    system("cls"); // Clear screen
-    this->setCursorPosition(0, 0);
-    std::cout << "*****************************************" << std::endl;
-    std::cout << "* Displaying a marquee console! *" << std::endl;
-    std::cout << "*****************************************" << std::endl;
+    // system("cls"); // Clear screen
+    // this->setCursorPosition(0, 0);
+    // std::cout << "*****************************************" << std::endl;
+    // std::cout << "* Displaying a marquee console! *" << std::endl;
+    // std::cout << "*****************************************" << std::endl;
+    //
+    // this->move();
+    // this->setCursorPosition(x, y);
+    // std::cout << HELLO_WORLD_STRING;
 
-    this->move();
-    this->setCursorPosition(x, y);
-    std::cout << HELLO_WORLD_STRING;
+    //delegate work and start on worker thread.
+    if (this->marqueeWorkerStarted == false) {
+        this->marqueeWorker->start();
+        this->marqueeWorkerStarted = true;
+        this->marqueeWorker->renderCurrentState();
+    }
+    else
+    {
+        //render current position of the hello world.
+        this->marqueeWorker->renderCurrentState();
+    }
 }
 
 bool MarqueeConsole::processCommand()
 {
-    this->setCursorPosition(0, this->screenHeight - 1);
-    std::cout << "Enter a command for " << this->name << ": " << this->currentCommand;
+    std::stringstream commandText;
+    commandText << std::string("Enter a command for ") << this->name << ": " << this->currentCommand;
+
+    String toDisplay = commandText.str();
+    int cursorPosition = toDisplay.length();
+    ConsoleManager::getInstance()->setCursorPosition(0, this->screenHeight - 1);
+    std::cout << toDisplay;
 
     if (this->isKeyPressed()) {
         char ch = this->getPressedKey();
-        if (ch != '\n' && ch != '\r')
+        if (ch == '\b' && this->currentCommand.length() > 0)
+        {
+            this->currentCommand.pop_back();
+            this->commandEntered = false;
+        }
+    	else if (ch != '\n' && ch != '\r')
         {
             this->currentCommand.push_back(ch);
             this->commandEntered = false;
@@ -62,34 +86,27 @@ bool MarqueeConsole::processCommand()
         this->currentCommand = "";
     }
 
-    this->setCursorPosition(0, this->screenHeight);
+    ConsoleManager::getInstance()->setCursorPosition(0, this->screenHeight);
     std::cout << this->outputBuffer.str();
 
-    this->setCursorPosition(0, this->screenHeight - 1);
-    IETThread::sleep(REFRESH_DELAY);
+    //move cursor to last character
+    ConsoleManager::getInstance()->setCursorPosition(cursorPosition, this->screenHeight - 1);
+    IETThread::sleep(POLLING_DELAY);
 
     return false;
 }
 
-void MarqueeConsole::move()
-{
-    x += dx;
-    y += dy;
-
-    if (x <= 0 || x >= screenWidth - HELLO_WORLD_STRING.length())
-        dx = -dx;
-
-    if (y <= 4 || y >= screenHeight - 2)
-        dy = -dy;
-}
-
-void MarqueeConsole::setCursorPosition(int posX, int posY) const
-{
-    COORD coord;
-    coord.X = posX;
-    coord.Y = posY;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-}
+// void MarqueeConsole::move()
+// {
+//     x += dx;
+//     y += dy;
+//
+//     if (x <= 0 || x >= screenWidth - HELLO_WORLD_STRING.length())
+//         dx = -dx;
+//
+//     if (y <= 4 || y >= screenHeight - 2)
+//         dy = -dy;
+// }
 
 bool MarqueeConsole::isKeyPressed() const
 {

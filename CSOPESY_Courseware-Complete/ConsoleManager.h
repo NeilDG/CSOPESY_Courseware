@@ -1,12 +1,12 @@
 #pragma once
 #include <memory>
 #include <vector>
-
 #include "AConsole.h"
 #include <unordered_map>
 #include <Windows.h>
+#include "IETSemaphore.h"
+#include "TypedefRepo.h"
 
-typedef std::string String;
 const String MAIN_CONSOLE = "MAIN_CONSOLE";
 const String MARQUEE_CONSOLE = "MARQUEE_CONSOLE";
 
@@ -25,6 +25,8 @@ public:
 
 	HANDLE getConsoleHandle() const;
 
+	void setCursorPosition(int posX, int posY) const;
+
 private:
 	ConsoleManager();
 	~ConsoleManager() = default;
@@ -37,6 +39,8 @@ private:
 	std::shared_ptr<AConsole> previousConsole;
 
 	HANDLE consoleHandle;
+
+	std::unique_ptr<IETSemaphore> mutex;
 
 	
 };

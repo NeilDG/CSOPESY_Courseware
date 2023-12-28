@@ -58,7 +58,7 @@ void Parameters::encodeString(const String keyName, String item)
 	this->stringTable[keyName] = item;
 }
 
-EventBroadcaster::String Parameters::getStringData(const String keyName, String defaultValue)
+String Parameters::getStringData(const String keyName, String defaultValue)
 {
 	if (this->stringTable.contains(keyName))
 		return this->stringTable[keyName];

@@ -29,6 +29,7 @@
     <ClCompile Include="MainConsole.cpp">
       <Filter>ConsoleUI</Filter>
     </ClCompile>
+    <ClCompile Include="MarqueeWorkerThread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FileSystem">
@@ -45,6 +46,9 @@
     </Filter>
     <Filter Include="ConsoleUI">
       <UniqueIdentifier>{5bf0bd30-be2d-463d-b1e9-056a5a7b08b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{07a640b0-9fe0-46f1-8ed5-8eb7929b3730}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +81,10 @@
     </ClInclude>
     <ClInclude Include="MainConsole.h">
       <Filter>ConsoleUI</Filter>
+    </ClInclude>
+    <ClInclude Include="MarqueeWorkerThread.h" />
+    <ClInclude Include="TypedefRepo.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

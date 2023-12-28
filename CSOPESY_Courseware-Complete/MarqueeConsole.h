@@ -15,6 +15,7 @@ private:
 
 	int screenWidth = 120;
 	int screenHeight = 25;
+	const int REFRESH_DELAY = 10; //change this value to slow/increase refresh rate of marquee
 
 	void move();
 	void setCursorPosition(int posX, int posY) const;

@@ -66,7 +66,7 @@ bool MarqueeConsole::processCommand()
     std::cout << this->outputBuffer.str();
 
     this->setCursorPosition(0, this->screenHeight - 1);
-    IETThread::sleep(100);
+    IETThread::sleep(REFRESH_DELAY);
 
     return false;
 }

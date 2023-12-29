@@ -8,3 +8,9 @@ struct Delay
 	static constexpr int REFRESH_DELAY = 10; //screen refresh in marquee console
 	static constexpr int POLLING_DELAY = 5; //keyboard polling rate. Lower is better.
 };
+
+struct Console
+{
+	static constexpr int WIDTH = 120; //screen refresh in marquee console
+	static constexpr int HEIGHT = 25; //keyboard polling rate. Lower is better.
+};

@@ -2,10 +2,11 @@
 #include <iostream>
 #include "ConsoleManager.h"
 #include "IETThread.h"
+#include "GlobalConfig.h"
 
 MarqueeConsole::MarqueeConsole() : AConsole(MARQUEE_CONSOLE)
 {
-    this->marqueeWorker = std::make_unique<MarqueeWorkerThread>(this->screenWidth, this->screenHeight, this->REFRESH_DELAY);
+    this->marqueeWorker = std::make_unique<MarqueeWorkerThread>(Console::WIDTH, Console::HEIGHT, this->REFRESH_DELAY);
 }
 
 void MarqueeConsole::display()
@@ -37,10 +38,9 @@ bool MarqueeConsole::processCommand()
 {
     std::stringstream commandText;
     commandText << std::string("Enter a command for ") << this->name << ": " << this->currentCommand;
-
     String toDisplay = commandText.str();
     int cursorPosition = toDisplay.length();
-    ConsoleManager::getInstance()->setCursorPosition(0, this->screenHeight - 1);
+    ConsoleManager::getInstance()->setCursorPosition(0, Console::HEIGHT - 1);
     std::cout << toDisplay;
 
     if (isKeyPressed()) {
@@ -80,11 +80,11 @@ bool MarqueeConsole::processCommand()
         this->currentCommand = "";
     }
 
-    ConsoleManager::getInstance()->setCursorPosition(0, this->screenHeight);
+    ConsoleManager::getInstance()->setCursorPosition(0, Console::HEIGHT);
     std::cout << this->outputBuffer.str();
 
     //move cursor to last character
-    ConsoleManager::getInstance()->setCursorPosition(cursorPosition, this->screenHeight - 1);
+    ConsoleManager::getInstance()->setCursorPosition(cursorPosition, Console::HEIGHT - 1);
     IETThread::sleep(POLLING_DELAY);
 
     return false;

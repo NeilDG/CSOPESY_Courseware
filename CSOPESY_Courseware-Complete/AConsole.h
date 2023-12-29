@@ -17,9 +17,5 @@ public:
 
 	static bool isKeyPressed();
 	static char getPressedKey();
-
-protected:
-	int screenWidth = 120;
-	int screenHeight = 25;
 };
 

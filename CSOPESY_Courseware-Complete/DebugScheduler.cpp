@@ -4,10 +4,6 @@
 #include "Process.h"
 #include "GlobalConfig.h"
 
-DebugScheduler::DebugScheduler()
-{
-}
-
 void DebugScheduler::test_storeRandomProcessesInQueue(int limit)
 {
 	for(int i = 0; i < limit; i++)
@@ -23,18 +19,19 @@ void DebugScheduler::test_storeRandomProcessesInQueue(int limit)
  */
 void DebugScheduler::execute()
 {
-
-	while(!this->processQueue.empty())
+	if (this->currentProcess == nullptr || this->currentProcess->isFinished())
 	{
-		std::shared_ptr<Process> p = this->processQueue.front();
-		this->processQueue.pop();
-
-		while(!p->isFinished())
+		if (!this->processQueue.empty())
 		{
-			p->executeCurrentCommand();
-			p->moveToNextLine();
+			this->currentProcess = this->processQueue.front();
+			this->processQueue.pop();
 		}
-
-		IETThread::sleep(Delay::PER_PROCESS_DELAY);
 	}
+	else if (!this->currentProcess->isFinished())
+	{
+		this->currentProcess->executeCurrentCommand();
+		this->currentProcess->moveToNextLine();
+	}
+
+	IETThread::sleep(Delay::PER_PROCESS_DELAY);
 }

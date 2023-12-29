@@ -29,6 +29,27 @@
     <ClCompile Include="MainConsole.cpp">
       <Filter>ConsoleUI</Filter>
     </ClCompile>
+    <ClCompile Include="Process.cpp">
+      <Filter>Process</Filter>
+    </ClCompile>
+    <ClCompile Include="PrintCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="IOCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="MarqueeWorkerThread.cpp">
+      <Filter>Threading</Filter>
+    </ClCompile>
+    <ClCompile Include="SchedulingConsole.cpp">
+      <Filter>ConsoleUI</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugScheduler.cpp">
+      <Filter>CPU</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FileSystem">
@@ -45,6 +66,24 @@
     </Filter>
     <Filter Include="ConsoleUI">
       <UniqueIdentifier>{5bf0bd30-be2d-463d-b1e9-056a5a7b08b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{07a640b0-9fe0-46f1-8ed5-8eb7929b3730}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Process">
+      <UniqueIdentifier>{65186605-5afe-42c9-977f-488f3f7c57c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands">
+      <UniqueIdentifier>{02fa14cd-8b98-4fa1-8a80-913357132f48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CPU">
+      <UniqueIdentifier>{6522b54c-b4a2-422a-b33e-43cc13fbdfe0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{f6b49bc8-1e83-4da4-8010-1be116385948}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{cfb345c2-9a97-4be2-af58-1e61a3285ff7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +116,36 @@
     </ClInclude>
     <ClInclude Include="MainConsole.h">
       <Filter>ConsoleUI</Filter>
+    </ClInclude>
+    <ClInclude Include="TypedefRepo.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Process.h">
+      <Filter>Process</Filter>
+    </ClInclude>
+    <ClInclude Include="ICommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="PrintCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="IOCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="MarqueeWorkerThread.h">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="SchedulingConsole.h">
+      <Filter>ConsoleUI</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugScheduler.h">
+      <Filter>CPU</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalConfig.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

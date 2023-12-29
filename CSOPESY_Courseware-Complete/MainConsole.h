@@ -4,10 +4,12 @@ class MainConsole :    public AConsole
 {
 public:
 	MainConsole();
+	void onEnabled() override;
 	void display() override;
-	bool processCommand() override;
+	void process() override;
 
 private:
-	void DisplayCSOPESY() const;
+	void DisplayCSOPESY();
+	bool refreshed = false;
 };
 

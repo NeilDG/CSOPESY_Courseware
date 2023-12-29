@@ -1,14 +1,14 @@
 #pragma once
 #include <memory>
 #include <vector>
-
 #include "AConsole.h"
 #include <unordered_map>
 #include <Windows.h>
+#include "TypedefRepo.h"
 
-typedef std::string String;
 const String MAIN_CONSOLE = "MAIN_CONSOLE";
 const String MARQUEE_CONSOLE = "MARQUEE_CONSOLE";
+const String SCHEDULING_CONSOLE = "SCHEDULING_CONSOLE";
 
 class ConsoleManager
 {
@@ -19,11 +19,16 @@ public:
 	static void initialize();
 	static void destroy();
 
-	bool drawConsole() const;
+	void drawConsole() const;
+	void process() const;
 	void switchConsole(String consoleName);
 	void returnToPreviousConsole();
+	void exitApplication();
+	bool isRunning() const;
 
 	HANDLE getConsoleHandle() const;
+
+	void setCursorPosition(int posX, int posY) const;
 
 private:
 	ConsoleManager();
@@ -37,7 +42,6 @@ private:
 	std::shared_ptr<AConsole> previousConsole;
 
 	HANDLE consoleHandle;
-
-	
+	bool running = true;
 };
 

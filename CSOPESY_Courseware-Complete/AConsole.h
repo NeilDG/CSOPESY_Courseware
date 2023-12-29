@@ -9,10 +9,14 @@ public:
 	~AConsole() = default;
 
 	String getName();
+	virtual void onEnabled() = 0;
 	virtual void display() = 0;
-	virtual bool processCommand() = 0;
+	virtual void process() = 0;
 
 	String name;
 	friend class ConsoleManager;
+
+	static bool isKeyPressed();
+	static char getPressedKey();
 };
 

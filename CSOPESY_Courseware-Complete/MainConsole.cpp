@@ -8,8 +8,20 @@ MainConsole::MainConsole() : AConsole(MAIN_CONSOLE)
 {
 }
 
-void MainConsole::DisplayCSOPESY() const
+void MainConsole::onEnabled()
 {
+    this->refreshed = true;
+}
+
+void MainConsole::DisplayCSOPESY()
+{
+    if(this->refreshed)
+    {
+        system("cls");
+        ConsoleManager::getInstance()->setCursorPosition(0, 0);
+        this->refreshed = false;
+    }
+
     HANDLE consoleHandle = ConsoleManager::getInstance()->getConsoleHandle();
     // Display "CSOPESY" ASCII art in the upper portion of the console
     std::cout << "   ____ ____   ___  ____  _____ ______   __                             \n";
@@ -29,20 +41,17 @@ void MainConsole::DisplayCSOPESY() const
 
 void MainConsole::display()
 {
-	this->DisplayCSOPESY();
-
-	HANDLE consoleHandle = ConsoleManager::getInstance()->getConsoleHandle();
-	// Reset console text attributes (optional) - evaluates to a (1, 1, 1) = white color
-	SetConsoleTextAttribute(consoleHandle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+	
 }
 
-bool MainConsole::processCommand()
+void MainConsole::process()
 {
+    //since the main console handles traditional input via std::cin. No need to do this frame-by-frame.
+    this->DisplayCSOPESY();
+
     HANDLE consoleHandle = ConsoleManager::getInstance()->getConsoleHandle();
-    
-    // Position the cursor at the bottom for user input
-    // const COORD bottomPosition = { 0, 24 };
-    // SetConsoleCursorPosition(consoleHandle, bottomPosition);
+    // Reset console text attributes (optional) - evaluates to a (1, 1, 1) = white color
+    SetConsoleTextAttribute(consoleHandle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 
     // Display prompt
     std::cout << "Enter a command: ";
@@ -53,7 +62,7 @@ bool MainConsole::processCommand()
 
     // Check for exit condition
     if (command == "exit") {
-        return true;
+        ConsoleManager::getInstance()->exitApplication();
     }
 
     if (command == "clear" || command == "cls") {
@@ -91,11 +100,13 @@ bool MainConsole::processCommand()
     {
         FileSystem::getInstance()->printAllDirectories(true);
     }
+    else if (command == "scheduling")
+    {
+        ConsoleManager::getInstance()->switchConsole(SCHEDULING_CONSOLE);
+    }
     else {
         // Simulate command execution
         std::cout << "Executing command: " << command << std::endl;
     }
-
-    return false;
     
 }

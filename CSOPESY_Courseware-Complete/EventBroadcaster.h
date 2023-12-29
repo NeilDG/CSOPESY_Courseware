@@ -5,12 +5,13 @@
 #include <unordered_map>
 #include <vector>
 
+#include "TypedefRepo.h"
+
 class Observer;
 class Parameters;
 class EventBroadcaster
 {
 public:
-	typedef std::string String;
 	static EventBroadcaster* getInstance();
 	static void initialize();
 	static void destroy();
@@ -41,8 +42,6 @@ private:
 
 class Parameters
 {
-private:
-	typedef std::string String;
 public:
 	Parameters(const String eventName);
 	~Parameters();

@@ -21,7 +21,6 @@ void MarqueeWorkerThread::run()
         this->process();
         IETThread::sleep(this->refreshDelay);
     }
-    
 }
 
 void MarqueeWorkerThread::dismiss()

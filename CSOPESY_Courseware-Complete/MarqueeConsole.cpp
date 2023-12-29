@@ -1,16 +1,10 @@
 #include "MarqueeConsole.h"
-#include <conio.h>  // For _kbhit() and _getch()
 #include <iostream>
 #include "ConsoleManager.h"
 #include "IETThread.h"
 
 MarqueeConsole::MarqueeConsole() : AConsole(MARQUEE_CONSOLE)
 {
-    // this->x = 0;
-    // this->y = 4;
-    // this->dx = 1;
-    // this->dy = 1;
-
     this->marqueeWorker = std::make_unique<MarqueeWorkerThread>(this->screenWidth, this->screenHeight, this->REFRESH_DELAY);
 }
 
@@ -49,8 +43,8 @@ bool MarqueeConsole::processCommand()
     ConsoleManager::getInstance()->setCursorPosition(0, this->screenHeight - 1);
     std::cout << toDisplay;
 
-    if (this->isKeyPressed()) {
-        char ch = this->getPressedKey();
+    if (isKeyPressed()) {
+        char ch = getPressedKey();
         if (ch == '\b' && this->currentCommand.length() > 0)
         {
             this->currentCommand.pop_back();
@@ -96,24 +90,3 @@ bool MarqueeConsole::processCommand()
     return false;
 }
 
-// void MarqueeConsole::move()
-// {
-//     x += dx;
-//     y += dy;
-//
-//     if (x <= 0 || x >= screenWidth - HELLO_WORLD_STRING.length())
-//         dx = -dx;
-//
-//     if (y <= 4 || y >= screenHeight - 2)
-//         dy = -dy;
-// }
-
-bool MarqueeConsole::isKeyPressed() const
-{
-    return _kbhit() != 0;
-}
-
-char MarqueeConsole::getPressedKey() const
-{
-    return _getch();
-}

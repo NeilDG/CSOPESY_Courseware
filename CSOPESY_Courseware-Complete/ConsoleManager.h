@@ -4,11 +4,11 @@
 #include "AConsole.h"
 #include <unordered_map>
 #include <Windows.h>
-#include "IETSemaphore.h"
 #include "TypedefRepo.h"
 
 const String MAIN_CONSOLE = "MAIN_CONSOLE";
 const String MARQUEE_CONSOLE = "MARQUEE_CONSOLE";
+const String SCHEDULING_CONSOLE = "SCHEDULING_CONSOLE";
 
 class ConsoleManager
 {
@@ -39,9 +39,5 @@ private:
 	std::shared_ptr<AConsole> previousConsole;
 
 	HANDLE consoleHandle;
-
-	std::unique_ptr<IETSemaphore> mutex;
-
-	
 };
 

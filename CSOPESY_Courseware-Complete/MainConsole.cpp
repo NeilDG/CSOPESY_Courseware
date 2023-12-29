@@ -91,6 +91,10 @@ bool MainConsole::processCommand()
     {
         FileSystem::getInstance()->printAllDirectories(true);
     }
+    else if (command == "scheduling")
+    {
+        ConsoleManager::getInstance()->switchConsole(SCHEDULING_CONSOLE);
+    }
     else {
         // Simulate command execution
         std::cout << "Executing command: " << command << std::endl;

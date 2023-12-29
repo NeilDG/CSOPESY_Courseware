@@ -4,6 +4,7 @@
 
 #include "MainConsole.h"
 #include "MarqueeConsole.h"
+#include "SchedulingConsole.h"
 
 ConsoleManager* ConsoleManager::sharedInstance = nullptr;
 ConsoleManager* ConsoleManager::getInstance()
@@ -57,14 +58,13 @@ ConsoleManager::ConsoleManager()
 
 	const std::shared_ptr<MainConsole> mainConsole = std::make_shared<MainConsole>();
 	const std::shared_ptr<MarqueeConsole> marqueeConsole = std::make_shared<MarqueeConsole>();
+	const std::shared_ptr<SchedulingConsole> schedulingConsole = std::make_shared<SchedulingConsole>();
 
 	this->consoleTable[MAIN_CONSOLE] = mainConsole;
 	this->consoleTable[MARQUEE_CONSOLE] = marqueeConsole;
+	this->consoleTable[SCHEDULING_CONSOLE] = schedulingConsole;
 
 	this->switchConsole(MAIN_CONSOLE);
-
-	//initialize mutex
-	this->mutex = std::make_unique<IETSemaphore>(1);
 
 }
 

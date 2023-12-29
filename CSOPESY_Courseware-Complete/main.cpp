@@ -9,6 +9,7 @@
 
 #include "ConsoleManager.h"
 #include "FileSystem.h"
+#include "InputManager.h"
 
 //columns x rows
 void SetConsoleWindowSize(int width, int height) {
@@ -22,6 +23,7 @@ void SetConsoleWindowSize(int width, int height) {
 
 int main()
 {
+    InputManager::initialize();
     FileSystem::initialize();
     // FileSystem::getInstance()->test_createRandomFiles(1000);
     // FileSystem::getInstance()->saveFileSystem();
@@ -37,5 +39,7 @@ int main()
         running = ConsoleManager::getInstance()->isRunning();
     }
 
+    ConsoleManager::destroy();
+    InputManager::destroy();
     return 0;
 }

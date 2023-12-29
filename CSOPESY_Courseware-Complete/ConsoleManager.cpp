@@ -54,6 +54,7 @@ void ConsoleManager::switchConsole(String consoleName)
 		system("cls");
 		this->previousConsole = this->currentConsole;
 		this->currentConsole = this->consoleTable[consoleName];
+		this->currentConsole->onEnabled();
 	}
 	else
 	{
@@ -87,6 +88,7 @@ void ConsoleManager::returnToPreviousConsole()
 		// Clear the screen
 		system("cls");
 		this->currentConsole = this->previousConsole;
+		this->currentConsole->onEnabled();
 	}
 }
 

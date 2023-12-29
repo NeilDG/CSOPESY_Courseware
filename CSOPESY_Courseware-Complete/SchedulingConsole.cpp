@@ -11,6 +11,10 @@ SchedulingConsole::SchedulingConsole() : AConsole(SCHEDULING_CONSOLE)
     this->messageRow = 3;
 }
 
+void SchedulingConsole::onEnabled()
+{
+
+}
 
 void SchedulingConsole::process()
 {

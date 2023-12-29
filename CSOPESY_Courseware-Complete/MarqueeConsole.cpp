@@ -9,6 +9,11 @@ MarqueeConsole::MarqueeConsole() : AConsole(MARQUEE_CONSOLE)
     this->marqueeWorker = std::make_unique<MarqueeWorkerThread>(Console::WIDTH, Console::HEIGHT, this->REFRESH_DELAY);
 }
 
+void MarqueeConsole::onEnabled()
+{
+
+}
+
 void MarqueeConsole::display()
 {
     // system("cls"); // Clear screen

@@ -8,8 +8,20 @@ MainConsole::MainConsole() : AConsole(MAIN_CONSOLE)
 {
 }
 
-void MainConsole::DisplayCSOPESY() const
+void MainConsole::onEnabled()
 {
+    this->refreshed = true;
+}
+
+void MainConsole::DisplayCSOPESY()
+{
+    if(this->refreshed)
+    {
+        system("cls");
+        ConsoleManager::getInstance()->setCursorPosition(0, 0);
+        this->refreshed = false;
+    }
+
     HANDLE consoleHandle = ConsoleManager::getInstance()->getConsoleHandle();
     // Display "CSOPESY" ASCII art in the upper portion of the console
     std::cout << "   ____ ____   ___  ____  _____ ______   __                             \n";
@@ -35,7 +47,6 @@ void MainConsole::display()
 void MainConsole::process()
 {
     //since the main console handles traditional input via std::cin. No need to do this frame-by-frame.
-    ConsoleManager::getInstance()->setCursorPosition(0, 0);
     this->DisplayCSOPESY();
 
     HANDLE consoleHandle = ConsoleManager::getInstance()->getConsoleHandle();

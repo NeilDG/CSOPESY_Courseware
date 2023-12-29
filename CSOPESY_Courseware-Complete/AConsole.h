@@ -10,7 +10,7 @@ public:
 
 	String getName();
 	virtual void display() = 0;
-	virtual bool processCommand() = 0;
+	virtual void process() = 0;
 
 	String name;
 	friend class ConsoleManager;

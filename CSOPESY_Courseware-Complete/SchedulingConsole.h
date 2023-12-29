@@ -8,9 +8,11 @@ class SchedulingConsole :    public AConsole
 public:
 	SchedulingConsole();
 	void display() override;
-	bool processCommand() override;
+	void process() override;
 
 private:
+	std::unique_ptr<DebugScheduler> debugScheduler;
+
 	String currentCommand;
 	bool commandEntered = false;
 
@@ -18,6 +20,8 @@ private:
 	int messageRow;
 	std::stringstream outputBuffer;
 
-	std::unique_ptr<DebugScheduler> debugScheduler;
+	String btmCommandDisplay;
+	int btmCommandPosition;
+	
 };
 

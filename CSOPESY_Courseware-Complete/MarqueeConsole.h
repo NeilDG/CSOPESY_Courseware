@@ -8,7 +8,7 @@ class MarqueeConsole :    public AConsole
 public:
 	MarqueeConsole();
 	void display() override;
-	bool processCommand() override;
+	void process() override;
 
 private:
 	const int REFRESH_DELAY = 50; //change this value to slow/increase refresh rate of marquee

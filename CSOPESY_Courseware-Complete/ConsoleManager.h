@@ -19,9 +19,12 @@ public:
 	static void initialize();
 	static void destroy();
 
-	bool drawConsole() const;
+	void drawConsole() const;
+	void process() const;
 	void switchConsole(String consoleName);
 	void returnToPreviousConsole();
+	void exitApplication();
+	bool isRunning() const;
 
 	HANDLE getConsoleHandle() const;
 
@@ -39,5 +42,6 @@ private:
 	std::shared_ptr<AConsole> previousConsole;
 
 	HANDLE consoleHandle;
+	bool running = true;
 };
 

@@ -5,7 +5,7 @@ class MainConsole :    public AConsole
 public:
 	MainConsole();
 	void display() override;
-	bool processCommand() override;
+	void process() override;
 
 private:
 	void DisplayCSOPESY() const;

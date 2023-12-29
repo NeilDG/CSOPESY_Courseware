@@ -22,17 +22,27 @@ void ConsoleManager::destroy()
 	delete sharedInstance;
 }
 
-bool ConsoleManager::drawConsole() const
+void ConsoleManager::drawConsole() const
 {
 	if(this->currentConsole != nullptr)
 	{
 		this->currentConsole->display();
-		return this->currentConsole->processCommand();
 	}
 	else
 	{
 		std::cerr << "There is no assigned console. Please check." << std::endl;
-		return true;
+	}
+}
+
+void ConsoleManager::process() const
+{
+	if (this->currentConsole != nullptr)
+	{
+		this->currentConsole->process();
+	}
+	else
+	{
+		std::cerr << "There is no assigned console. Please check." << std::endl;
 	}
 }
 
@@ -53,6 +63,8 @@ void ConsoleManager::switchConsole(String consoleName)
 
 ConsoleManager::ConsoleManager()
 {
+	this->running = true;
+
 	//initialize consoles
 	this->consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -76,6 +88,16 @@ void ConsoleManager::returnToPreviousConsole()
 		system("cls");
 		this->currentConsole = this->previousConsole;
 	}
+}
+
+void ConsoleManager::exitApplication()
+{
+	this->running = false;
+}
+
+bool ConsoleManager::isRunning() const
+{
+	return this->running;
 }
 
 HANDLE ConsoleManager::getConsoleHandle() const

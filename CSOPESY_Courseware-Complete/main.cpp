@@ -31,7 +31,10 @@ int main()
     bool running = true;
     while(running)
     {
-        running = !ConsoleManager::getInstance()->drawConsole();
+        ConsoleManager::getInstance()->process();
+        ConsoleManager::getInstance()->drawConsole();
+
+        running = ConsoleManager::getInstance()->isRunning();
     }
 
     return 0;

@@ -47,6 +47,9 @@
     <ClCompile Include="DebugScheduler.cpp">
       <Filter>CPU</Filter>
     </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FileSystem">
@@ -78,6 +81,9 @@
     </Filter>
     <Filter Include="Config">
       <UniqueIdentifier>{f6b49bc8-1e83-4da4-8010-1be116385948}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{cfb345c2-9a97-4be2-af58-1e61a3285ff7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +143,9 @@
     </ClInclude>
     <ClInclude Include="GlobalConfig.h">
       <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

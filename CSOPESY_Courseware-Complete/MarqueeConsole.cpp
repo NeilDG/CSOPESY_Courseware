@@ -34,7 +34,7 @@ void MarqueeConsole::display()
     }
 }
 
-bool MarqueeConsole::processCommand()
+void MarqueeConsole::process()
 {
     std::stringstream commandText;
     commandText << std::string("Enter a command for ") << this->name << ": " << this->currentCommand;
@@ -86,7 +86,5 @@ bool MarqueeConsole::processCommand()
     //move cursor to last character
     ConsoleManager::getInstance()->setCursorPosition(cursorPosition, Console::HEIGHT - 1);
     IETThread::sleep(POLLING_DELAY);
-
-    return false;
 }
 

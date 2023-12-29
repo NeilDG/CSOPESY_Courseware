@@ -11,33 +11,14 @@ SchedulingConsole::SchedulingConsole() : AConsole(SCHEDULING_CONSOLE)
     this->messageRow = 3;
 }
 
-void SchedulingConsole::display()
-{
-    // system("cls"); // Clear screen
-    ConsoleManager::getInstance()->setCursorPosition(0, 0);
-    std::cout << "*****************************************" << std::endl;
-    std::cout << "* Displaying a scheduling console! *" << std::endl;
-    std::cout << "*****************************************" << std::endl;
 
-    //clear the current row
-    ConsoleManager::getInstance()->setCursorPosition(0, this->messageRow);
-    std::string spaces(Console::WIDTH, ' ');
-    std::cout << spaces;
-    ConsoleManager::getInstance()->setCursorPosition(0, this->messageRow);
-
-    this->debugScheduler->execute();
-    this->messageRow = (this->messageRow + 1) % (Console::HEIGHT - 2);
-}
-
-bool SchedulingConsole::processCommand()
+void SchedulingConsole::process()
 {
     std::stringstream commandText;
     commandText << std::string("Enter a command for ") << this->name << ": " << this->currentCommand;
-    String toDisplay = commandText.str();
-    int cursorPosition = toDisplay.length();
-    ConsoleManager::getInstance()->setCursorPosition(0, Console::HEIGHT - 1);
-    std::cout << toDisplay;
-    
+    this->btmCommandDisplay = commandText.str();
+    this->btmCommandPosition = this->btmCommandDisplay.length();
+
     if (isKeyPressed()) {
         char ch = getPressedKey();
         if (ch == '\b' && this->currentCommand.length() > 0)
@@ -55,7 +36,7 @@ bool SchedulingConsole::processCommand()
             this->commandEntered = true;
         }
     }
-    
+
     if (this->commandEntered)
     {
         //process commands
@@ -69,18 +50,37 @@ bool SchedulingConsole::processCommand()
         else {
             this->outputBuffer << std::string("Command processed in ") << this->name << ": " << this->currentCommand << std::endl;
         }
-    
+
         //reset flags
         this->currentCommand = "";
         this->commandEntered = false;
     }
-    
+
+    IETThread::sleep(Delay::POLLING_DELAY);
+}
+void SchedulingConsole::display()
+{
+    // system("cls"); // Clear screen
+    ConsoleManager::getInstance()->setCursorPosition(0, 0);
+    std::cout << "*****************************************" << std::endl;
+    std::cout << "* Displaying a scheduling console! *" << std::endl;
+    std::cout << "*****************************************" << std::endl;
+
+    //clear the current row
+    ConsoleManager::getInstance()->setCursorPosition(0, this->messageRow);
+    std::string spaces(Console::WIDTH, ' ');
+    std::cout << spaces;
+    ConsoleManager::getInstance()->setCursorPosition(0, this->messageRow);
+
+    this->debugScheduler->execute();
+    this->messageRow = (this->messageRow + 1) % (Console::HEIGHT - 2);
+
+    //typing command row
+    ConsoleManager::getInstance()->setCursorPosition(0, Console::HEIGHT - 1);
+    std::cout << this->btmCommandDisplay;
+
     ConsoleManager::getInstance()->setCursorPosition(0, Console::HEIGHT);
     std::cout << this->outputBuffer.str();
-    
-    //move cursor to last character
-    ConsoleManager::getInstance()->setCursorPosition(cursorPosition, Console::HEIGHT - 1);
-    IETThread::sleep(Delay::POLLING_DELAY);
 
-    return false;
+    ConsoleManager::getInstance()->setCursorPosition(this->btmCommandPosition, Console::HEIGHT - 1);
 }

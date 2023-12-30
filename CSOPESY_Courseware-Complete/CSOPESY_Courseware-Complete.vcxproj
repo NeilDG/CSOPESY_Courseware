@@ -146,6 +146,7 @@
     <ClCompile Include="MessageBuffer.cpp" />
     <ClCompile Include="PrintCommand.cpp" />
     <ClCompile Include="Process.cpp" />
+    <ClCompile Include="ResourceEmulator.cpp" />
     <ClCompile Include="SchedulingConsole.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +170,7 @@
     <ClInclude Include="MessageBuffer.h" />
     <ClInclude Include="PrintCommand.h" />
     <ClInclude Include="Process.h" />
+    <ClInclude Include="ResourceEmulator.h" />
     <ClInclude Include="SchedulingConsole.h" />
     <ClInclude Include="TypedefRepo.h" />
   </ItemGroup>

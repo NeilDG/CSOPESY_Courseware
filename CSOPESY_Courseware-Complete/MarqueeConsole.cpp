@@ -3,6 +3,7 @@
 #include "ConsoleManager.h"
 #include "IETThread.h"
 #include "GlobalConfig.h"
+#include "InputManager.h"
 
 MarqueeConsole::MarqueeConsole() : AConsole(MARQUEE_CONSOLE)
 {
@@ -48,8 +49,8 @@ void MarqueeConsole::process()
     ConsoleManager::getInstance()->setCursorPosition(0, Console::HEIGHT - 1);
     std::cout << toDisplay;
 
-    if (isKeyPressed()) {
-        char ch = getPressedKey();
+    if (InputManager::getInstance()->isKeyPressed()) {
+        char ch = InputManager::getInstance()->getPressedKey();
         if (ch == '\b' && this->currentCommand.length() > 0)
         {
             this->currentCommand.pop_back();

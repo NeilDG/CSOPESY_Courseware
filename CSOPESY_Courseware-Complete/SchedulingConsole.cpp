@@ -2,17 +2,16 @@
 #include "ConsoleManager.h"
 #include "DebugScheduler.h"
 #include "IETThread.h"
+#include "InputManager.h"
 #include "MessageBuffer.h"
 
 SchedulingConsole::SchedulingConsole() : AConsole(SCHEDULING_CONSOLE)
 {
-    this->debugScheduler = std::make_unique<DebugScheduler>();
+    this->debugScheduler = std::make_shared<DebugScheduler>();
     this->debugScheduler->test_storeRandomProcessesInQueue(50);
 
-    this->messageRow = 3;
-
-    this->ui2flags.schedulerRunning = false;
-    this->ui2flags.printHeader = true;
+    // this->chosenConsole = std::make_unique<Scheduling_UIVersion1>(this->debugScheduler);
+    this->chosenConsole = std::make_unique<Scheduling_UIVersion2>(this->debugScheduler);
 }
 
 void SchedulingConsole::onEnabled()
@@ -22,13 +21,34 @@ void SchedulingConsole::onEnabled()
 
 void SchedulingConsole::process()
 {
+    this->chosenConsole->process();
+}
+
+
+void SchedulingConsole::display()
+{
+    this->chosenConsole->display();
+}
+
+Scheduling_UIVersion1::Scheduling_UIVersion1(std::shared_ptr<DebugScheduler> scheduler) : AConsole(SCHEDULING_CONSOLE)
+{
+    this->scheduler = scheduler;
+    this->messageRow = 3;
+}
+
+void Scheduling_UIVersion1::onEnabled()
+{
+}
+
+void Scheduling_UIVersion1::process()
+{
     std::stringstream commandText;
     commandText << std::string("Enter a command for ") << this->name << ": " << this->currentCommand;
     this->btmCommandDisplay = commandText.str();
     this->btmCommandPosition = this->btmCommandDisplay.length();
 
-    if (isKeyPressed()) {
-        char ch = getPressedKey();
+    if (InputManager::getInstance()->isKeyPressed()) {
+        char ch = InputManager::getInstance()->getPressedKey();
         if (ch == '\b' && this->currentCommand.length() > 0)
         {
             this->currentCommand.pop_back();
@@ -64,16 +84,11 @@ void SchedulingConsole::process()
         this->commandEntered = false;
     }
 
-    // this->debugScheduler->execute();
-    if(this->ui2flags.schedulerRunning == false)
-    {
-        this->ui2flags.schedulerRunning = true;
-        this->debugScheduler->start();
-    }
+    this->scheduler->execute();
     IETThread::sleep(Delay::POLLING_DELAY);
 }
 
-void SchedulingConsole::displayUI_Version1()
+void Scheduling_UIVersion1::display()
 {
     ConsoleManager::getInstance()->setCursorPosition(0, 0);
     std::cout << "*****************************************" << std::endl;
@@ -103,12 +118,29 @@ void SchedulingConsole::displayUI_Version1()
     ConsoleManager::getInstance()->setCursorPosition(this->btmCommandPosition, Console::HEIGHT - 1);
 }
 
-/**
- * \brief Input-based console. Per input update.
- */
-void SchedulingConsole::displayUI_Version2()
+Scheduling_UIVersion2::Scheduling_UIVersion2(std::shared_ptr<DebugScheduler> scheduler) : AConsole(SCHEDULING_CONSOLE)
 {
-    if(this->ui2flags.printHeader)
+    this->scheduler = scheduler;
+    this->ui2flags.schedulerRunning = false;
+    this->ui2flags.printHeader = true;
+}
+
+void Scheduling_UIVersion2::onEnabled()
+{
+}
+
+void Scheduling_UIVersion2::process()
+{
+    //do nothing except for starting the scheduler thread. UI console is input-based per frame.
+    if (this->ui2flags.schedulerRunning == false) {
+        this->ui2flags.schedulerRunning = true;
+        this->scheduler->start();
+    }
+}
+
+void Scheduling_UIVersion2::display()
+{
+    if (this->ui2flags.printHeader)
     {
         ConsoleManager::getInstance()->setCursorPosition(0, 0);
         std::cout << "*****************************************" << std::endl;
@@ -116,13 +148,13 @@ void SchedulingConsole::displayUI_Version2()
         std::cout << "*****************************************" << std::endl;
         this->ui2flags.printHeader = false;
     }
-    std::vector<DebugScheduler::ProcessTimeInfo> ptList = this->debugScheduler->getAllProcessRemainingTime();
+    std::vector<DebugScheduler::ProcessTimeInfo> ptList = this->scheduler->getAllProcessRemainingTime();
 
     std::cout << "Enter command: ";
     String command;
     std::getline(std::cin, command);
 
-    if(command == "csopesy-smi" || command == "nvidia-smi")
+    if (command == "csopesy-smi" || command == "nvidia-smi")
     {
         std::cout << "One bar means one command/remaining time." << std::endl;
         for (int i = 0; i < ptList.size(); i++)
@@ -130,7 +162,7 @@ void SchedulingConsole::displayUI_Version2()
             DebugScheduler::ProcessTimeInfo ptInfo = ptList[i];
             std::cout << "PID:" << ptInfo.pid << " ";
 
-            if(ptInfo.remainingTime > 0)
+            if (ptInfo.remainingTime > 0)
             {
                 for (int j = 0; j < ptInfo.remainingTime; j++)
                 {
@@ -148,7 +180,7 @@ void SchedulingConsole::displayUI_Version2()
     else if (command == "clear") {
         system("cls");  // Clear screen if 'clear' is entered
     }
-    else if(command == "exit")
+    else if (command == "exit")
     {
         ConsoleManager::getInstance()->returnToPreviousConsole();
     }
@@ -156,20 +188,4 @@ void SchedulingConsole::displayUI_Version2()
     {
         std::cout << "Unrecognized command: " << command << std::endl;
     }
-
-    // //typing command row
-    // int yLoc = Console::HEIGHT + ptList.size();
-    // ConsoleManager::getInstance()->setCursorPosition(0, yLoc - 1);
-    // std::cout << this->btmCommandDisplay;
-    //
-    // ConsoleManager::getInstance()->setCursorPosition(0, yLoc);
-    // std::cout << this->outputBuffer.str();
-    //
-    // ConsoleManager::getInstance()->setCursorPosition(this->btmCommandPosition, yLoc - 1);
-}
-
-void SchedulingConsole::display()
-{
-    // this->displayUI_Version1();
-    this->displayUI_Version2();
 }

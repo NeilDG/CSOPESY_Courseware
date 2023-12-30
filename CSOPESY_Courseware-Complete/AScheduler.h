@@ -28,6 +28,17 @@ public:
 	void stop();
 	virtual void execute() = 0;
 
+	struct ProcessTimeInfo
+	{
+		int pid;
+		int remainingTime;
+	};
+
+	std::vector<ProcessTimeInfo> getAllProcessRemainingTime() const;
+
+	//test functions
+	void test_storeRandomProcessesInQueue(int limit);
+
 protected:
 	typedef std::queue<std::shared_ptr<Process>> ProcessQueue;
 	typedef std::vector<std::shared_ptr<Process>> ProcessList;

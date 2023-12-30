@@ -10,16 +10,7 @@ class DebugScheduler : public AScheduler
 public:
 	DebugScheduler();
 	void execute() override;
-	void test_storeRandomProcessesInQueue(int limit);
 	String getLatestMsg();
-
-	struct ProcessTimeInfo
-	{
-		int pid;
-		int remainingTime;
-	};
-
-	std::vector<ProcessTimeInfo> getAllProcessRemainingTime() const;
 
 private:
 	std::shared_ptr<Process> currentProcess = nullptr;

@@ -2,6 +2,7 @@
 #include "ConsoleManager.h"
 #include "DebugScheduler.h"
 #include "IETThread.h"
+#include "MessageBuffer.h"
 
 SchedulingConsole::SchedulingConsole() : AConsole(SCHEDULING_CONSOLE)
 {
@@ -60,24 +61,29 @@ void SchedulingConsole::process()
         this->commandEntered = false;
     }
 
+    // this->debugScheduler->execute();
     IETThread::sleep(Delay::POLLING_DELAY);
 }
-void SchedulingConsole::display()
+
+void SchedulingConsole::displayUI_Version1()
 {
-    // system("cls"); // Clear screen
     ConsoleManager::getInstance()->setCursorPosition(0, 0);
     std::cout << "*****************************************" << std::endl;
     std::cout << "* Displaying a scheduling console! *" << std::endl;
     std::cout << "*****************************************" << std::endl;
 
-    //clear the current row
-    ConsoleManager::getInstance()->setCursorPosition(0, this->messageRow);
-    std::string spaces(Console::WIDTH, ' ');
-    std::cout << spaces;
-    ConsoleManager::getInstance()->setCursorPosition(0, this->messageRow);
+    if (MessageBuffer::hasBacklogMessages())
+    {
+        //clear the current row
+        ConsoleManager::getInstance()->setCursorPosition(0, this->messageRow);
+        std::string spaces(Console::WIDTH, ' ');
+        std::cout << spaces;
+        ConsoleManager::getInstance()->setCursorPosition(0, this->messageRow);
 
-    this->debugScheduler->execute();
-    this->messageRow = (this->messageRow + 1) % (Console::HEIGHT - 2);
+        // this->debugScheduler->execute();
+        MessageBuffer::printBacklogMessages();
+        this->messageRow = (this->messageRow + 1) % (Console::HEIGHT - 2);
+    }
 
     //typing command row
     ConsoleManager::getInstance()->setCursorPosition(0, Console::HEIGHT - 1);
@@ -87,4 +93,36 @@ void SchedulingConsole::display()
     std::cout << this->outputBuffer.str();
 
     ConsoleManager::getInstance()->setCursorPosition(this->btmCommandPosition, Console::HEIGHT - 1);
+}
+
+void SchedulingConsole::displayUI_Version2()
+{
+    ConsoleManager::getInstance()->setCursorPosition(0, 0);
+    std::cout << "*****************************************" << std::endl;
+    std::cout << "* Displaying a scheduling console! *" << std::endl;
+    std::cout << "*****************************************" << std::endl;
+    std::vector<DebugScheduler::ProcessTimeInfo> ptList = this->debugScheduler->getAllProcessRemainingTime();
+
+
+	for(int i = 0; i < ptList.size(); i++)
+    {
+		DebugScheduler::ProcessTimeInfo ptInfo = ptList[i];
+        std::cout << "PID:" << ptInfo.pid << " ========" <<std::endl;
+    }
+
+    // //typing command row
+    // int yLoc = Console::HEIGHT + ptList.size();
+    // ConsoleManager::getInstance()->setCursorPosition(0, yLoc - 1);
+    // std::cout << this->btmCommandDisplay;
+    //
+    // ConsoleManager::getInstance()->setCursorPosition(0, yLoc);
+    // std::cout << this->outputBuffer.str();
+    //
+    // ConsoleManager::getInstance()->setCursorPosition(this->btmCommandPosition, yLoc - 1);
+}
+
+void SchedulingConsole::display()
+{
+    // this->displayUI_Version1();
+    this->displayUI_Version2();
 }

@@ -1,5 +1,6 @@
 #include "PrintCommand.h"
 #include "IETThread.h"
+#include "MessageBuffer.h"
 
 PrintCommand::PrintCommand(int pid, String& toPrint) : ICommand(pid, PRINT)
 {
@@ -9,5 +10,8 @@ PrintCommand::PrintCommand(int pid, String& toPrint) : ICommand(pid, PRINT)
 void PrintCommand::execute()
 {
 	ICommand::execute();
-	std::cout << "PID " << this->pid << ":" << this->toPrint << std::endl;
+
+	// std::cout << "PID " << this->pid << ":" << this->toPrint << std::endl;
+	std::stringstream msg; msg << String("PID ") << this->pid << ":" << this->toPrint << std::endl;
+	MessageBuffer::log(msg.str());
 }

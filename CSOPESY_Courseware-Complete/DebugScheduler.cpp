@@ -11,6 +11,7 @@ void DebugScheduler::test_storeRandomProcessesInQueue(int limit)
 		std::shared_ptr<Process> p = std::make_shared<Process>(i + 1);
 		p->test_generateRandomCommands(10);
 		this->processQueue.push(p);
+		this->processList.push_back(p);
 	}
 }
 
@@ -34,4 +35,16 @@ void DebugScheduler::execute()
 	}
 
 	IETThread::sleep(Delay::PER_PROCESS_DELAY);
+}
+
+std::vector<DebugScheduler::ProcessTimeInfo> DebugScheduler::getAllProcessRemainingTime() const
+{
+	std::vector<DebugScheduler::ProcessTimeInfo> ptList;
+	for(int i = 0; i < this->processList.size(); i++)
+	{
+		ProcessTimeInfo pt{ this->processList[i]->getPID(), this->processList[i]->getRemainingTime() };
+		ptList.push_back(pt);
+	}
+
+	return ptList;
 }

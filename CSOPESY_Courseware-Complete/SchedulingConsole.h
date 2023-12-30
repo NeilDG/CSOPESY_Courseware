@@ -12,6 +12,9 @@ public:
 	void process() override;
 
 private:
+	void displayUI_Version1();
+	void displayUI_Version2();
+
 	std::unique_ptr<DebugScheduler> debugScheduler;
 
 	String currentCommand;

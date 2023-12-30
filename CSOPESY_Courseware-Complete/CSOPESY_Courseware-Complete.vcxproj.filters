@@ -50,6 +50,9 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Input</Filter>
     </ClCompile>
+    <ClCompile Include="MessageBuffer.cpp">
+      <Filter>ConsoleUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FileSystem">
@@ -146,6 +149,9 @@
     </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageBuffer.h">
+      <Filter>ConsoleUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -10,6 +10,7 @@
 #include "ConsoleManager.h"
 #include "FileSystem.h"
 #include "InputManager.h"
+#include "MessageBuffer.h"
 
 //columns x rows
 void SetConsoleWindowSize(int width, int height) {
@@ -29,6 +30,7 @@ int main()
     // FileSystem::getInstance()->saveFileSystem();
     FileSystem::getInstance()->loadFileSystem();
     ConsoleManager::initialize();
+    MessageBuffer::initialize();
     
     bool running = true;
     while(running)
@@ -39,6 +41,7 @@ int main()
         running = ConsoleManager::getInstance()->isRunning();
     }
 
+    MessageBuffer::destroy();
     ConsoleManager::destroy();
     InputManager::destroy();
     return 0;

@@ -10,6 +10,9 @@ SchedulingConsole::SchedulingConsole() : AConsole(SCHEDULING_CONSOLE)
     this->debugScheduler->test_storeRandomProcessesInQueue(50);
 
     this->messageRow = 3;
+
+    this->ui2flags.schedulerRunning = false;
+    this->ui2flags.printHeader = true;
 }
 
 void SchedulingConsole::onEnabled()
@@ -62,6 +65,11 @@ void SchedulingConsole::process()
     }
 
     // this->debugScheduler->execute();
+    if(this->ui2flags.schedulerRunning == false)
+    {
+        this->ui2flags.schedulerRunning = true;
+        this->debugScheduler->start();
+    }
     IETThread::sleep(Delay::POLLING_DELAY);
 }
 
@@ -95,19 +103,58 @@ void SchedulingConsole::displayUI_Version1()
     ConsoleManager::getInstance()->setCursorPosition(this->btmCommandPosition, Console::HEIGHT - 1);
 }
 
+/**
+ * \brief Input-based console. Per input update.
+ */
 void SchedulingConsole::displayUI_Version2()
 {
-    ConsoleManager::getInstance()->setCursorPosition(0, 0);
-    std::cout << "*****************************************" << std::endl;
-    std::cout << "* Displaying a scheduling console! *" << std::endl;
-    std::cout << "*****************************************" << std::endl;
+    if(this->ui2flags.printHeader)
+    {
+        ConsoleManager::getInstance()->setCursorPosition(0, 0);
+        std::cout << "*****************************************" << std::endl;
+        std::cout << "* Displaying a scheduling console! *" << std::endl;
+        std::cout << "*****************************************" << std::endl;
+        this->ui2flags.printHeader = false;
+    }
     std::vector<DebugScheduler::ProcessTimeInfo> ptList = this->debugScheduler->getAllProcessRemainingTime();
 
+    std::cout << "Enter command: ";
+    String command;
+    std::getline(std::cin, command);
 
-	for(int i = 0; i < ptList.size(); i++)
+    if(command == "csopesy-smi" || command == "nvidia-smi")
     {
-		DebugScheduler::ProcessTimeInfo ptInfo = ptList[i];
-        std::cout << "PID:" << ptInfo.pid << " ========" <<std::endl;
+        std::cout << "One bar means one command/remaining time." << std::endl;
+        for (int i = 0; i < ptList.size(); i++)
+        {
+            DebugScheduler::ProcessTimeInfo ptInfo = ptList[i];
+            std::cout << "PID:" << ptInfo.pid << " ";
+
+            if(ptInfo.remainingTime > 0)
+            {
+                for (int j = 0; j < ptInfo.remainingTime; j++)
+                {
+                    std::cout << "=";
+                }
+            }
+            else
+            {
+                std::cout << "Finished";
+            }
+
+            std::cout << std::endl;
+        }
+    }
+    else if (command == "clear") {
+        system("cls");  // Clear screen if 'clear' is entered
+    }
+    else if(command == "exit")
+    {
+        ConsoleManager::getInstance()->returnToPreviousConsole();
+    }
+    else
+    {
+        std::cout << "Unrecognized command: " << command << std::endl;
     }
 
     // //typing command row

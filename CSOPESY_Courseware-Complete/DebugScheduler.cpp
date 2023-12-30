@@ -1,8 +1,14 @@
 #include "DebugScheduler.h"
 #include <iostream>
+
+#include "AScheduler.h"
 #include "IETThread.h"
 #include "Process.h"
 #include "GlobalConfig.h"
+
+DebugScheduler::DebugScheduler() : AScheduler(SchedulingAlgorithm::DEBUG, 0, DEBUG_SCHEDULER_NAME)
+{
+}
 
 void DebugScheduler::test_storeRandomProcessesInQueue(int limit)
 {

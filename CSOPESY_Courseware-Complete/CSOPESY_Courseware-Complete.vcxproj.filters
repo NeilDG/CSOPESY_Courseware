@@ -53,6 +53,9 @@
     <ClCompile Include="MessageBuffer.cpp">
       <Filter>ConsoleUI</Filter>
     </ClCompile>
+    <ClCompile Include="AScheduler.cpp">
+      <Filter>CPU</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FileSystem">
@@ -152,6 +155,9 @@
     </ClInclude>
     <ClInclude Include="MessageBuffer.h">
       <Filter>ConsoleUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AScheduler.h">
+      <Filter>CPU</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -26,6 +26,13 @@ private:
 
 	String btmCommandDisplay;
 	int btmCommandPosition;
+
+	struct UIVersion2Flags
+	{
+		bool schedulerRunning;
+		bool printHeader;
+	};
+	UIVersion2Flags ui2flags;
 	
 };
 

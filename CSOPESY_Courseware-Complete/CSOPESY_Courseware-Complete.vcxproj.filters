@@ -56,7 +56,10 @@
     <ClCompile Include="AScheduler.cpp">
       <Filter>CPU</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceEmulator.cpp" />
+    <ClCompile Include="ResourceEmulator.cpp">
+      <Filter>CPU</Filter>
+    </ClCompile>
+    <ClCompile Include="FCFSScheduler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FileSystem">
@@ -160,6 +163,9 @@
     <ClInclude Include="AScheduler.h">
       <Filter>CPU</Filter>
     </ClInclude>
-    <ClInclude Include="ResourceEmulator.h" />
+    <ClInclude Include="ResourceEmulator.h">
+      <Filter>CPU</Filter>
+    </ClInclude>
+    <ClInclude Include="FCFSScheduler.h" />
   </ItemGroup>
 </Project>

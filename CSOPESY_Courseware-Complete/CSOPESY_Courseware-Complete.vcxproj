@@ -133,6 +133,7 @@
     <ClCompile Include="ConsoleManager.cpp" />
     <ClCompile Include="DebugScheduler.cpp" />
     <ClCompile Include="EventBroadcaster.cpp" />
+    <ClCompile Include="FCFSScheduler.cpp" />
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="IETSemaphore.cpp" />
     <ClCompile Include="IETThread.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="DebugScheduler.h" />
     <ClInclude Include="EventBroadcaster.h" />
     <ClInclude Include="EventNames.h" />
+    <ClInclude Include="FCFSScheduler.h" />
     <ClInclude Include="FileSystem.h" />
     <ClInclude Include="GlobalConfig.h" />
     <ClInclude Include="ICommand.h" />

@@ -1,13 +1,20 @@
 #pragma once
-#include <vector>
+#include <unordered_map>
+
 #include "IETThread.h"
-class CPUWorker;
 class IExecutableAction;
+class CPUWorker;
+class IActionFinished
+{
+public:
+	virtual void onActionFinished(int cpuID) = 0;
+};
 
 /**
  * \brief A class that emulates resources such as CPU and available memory.
  */
-class ResourceEmulator
+static const int MAX_CPU_CORES = 2;
+class ResourceEmulator : public IActionFinished
 {
 public:
 	static ResourceEmulator* getInstance();
@@ -15,7 +22,9 @@ public:
 	static void destroy();
 
 	//One cpu core = one thread
-	typedef std::vector<std::shared_ptr<CPUWorker>> CPUCoreGroup;
+	typedef std::unordered_map<int, std::shared_ptr<CPUWorker>> CPUCoreGroup;
+	bool scheduleCPUWork(IExecutableAction* executableAction);
+	void onActionFinished(int cpuID) override;
 
 private:
 	ResourceEmulator();
@@ -24,22 +33,28 @@ private:
 	ResourceEmulator& operator=(ResourceEmulator const&) {}; // assignment operator is private*/
 	static ResourceEmulator* sharedInstance;
 
-	CPUCoreGroup cpuCores;
+	CPUCoreGroup workingCores;
 };
 
 class CPUWorker: public IETThread
 {
 public:
-	CPUWorker(std::shared_ptr<IExecutableAction> executableAction);
+	CPUWorker(int cpuID);
+	void assignExecutable(IExecutableAction* executableAction, IActionFinished* actionFinished);
 	void run() override;
+	bool isAvailable() const;
+	int getID();
 
 private:
-	std::shared_ptr<IExecutableAction> executableAction;
+	int cpuID;
+	bool available = true;
+	IExecutableAction* executableAction;
+	IActionFinished* actionFinished;
 };
 
 class IExecutableAction
 {
 public:
-	virtual void execute() = 0;
+	virtual void executeAction() = 0;
 };
 

@@ -9,7 +9,7 @@ FCFSScheduler::FCFSScheduler() : AScheduler(SchedulingAlgorithm::FCFS, 0, FCFS_S
 
 void FCFSScheduler::execute()
 {
-	ResourceEmulator* resourceEmulator = ResourceEmulator::getInstance();
+	const ResourceEmulator* resourceEmulator = ResourceEmulator::getInstance();
 
 	if(resourceEmulator->hasAvailableCPU())
 	{
@@ -21,7 +21,8 @@ void FCFSScheduler::execute()
 	}
 	else
 	{
-		this->outputBuffer << FCFS_SCHEDULER_NAME << "- Waiting for available CPU" << std::endl;
+		// this->outputBuffer << FCFS_SCHEDULER_NAME << "- Waiting for available CPU" << std::endl;
+		// std::cout << this->outputBuffer.str() << std::endl;
 	}
 
 	// if (this->currentProcess == nullptr || this->currentProcess->isFinished())

@@ -14,7 +14,7 @@ public:
 /**
  * \brief A class that emulates resources such as CPU and available memory.
  */
-static const int MAX_CPU_CORES = 2;
+static const int MAX_CPU_CORES = 1;
 class ResourceEmulator : public IActionFinished
 {
 public:
@@ -25,7 +25,7 @@ public:
 	//One cpu core = one thread
 	typedef std::unordered_map<int, std::shared_ptr<CPUWorker>> CPUCoreGroup;
 	bool scheduleCPUWork(std::shared_ptr<Process> process);
-	bool hasAvailableCPU();
+	bool hasAvailableCPU() const;
 	void onActionFinished(int cpuID) override;
 
 private:
@@ -35,24 +35,22 @@ private:
 	ResourceEmulator& operator=(ResourceEmulator const&) {}; // assignment operator is private*/
 	static ResourceEmulator* sharedInstance;
 
-	CPUCoreGroup workingCores;
+	int numWorkingCores = 0;
 
 	//mutual exclusion semaphore
-	std::unique_ptr<IETSemaphore> mutex;
+	std::shared_ptr<IETSemaphore> mutex;
 };
 
-class CPUWorker: public IETThread
+class CPUWorker
 {
 public:
 	CPUWorker(int cpuID);
 	void assignExecutable(std::shared_ptr<Process> process, IActionFinished* actionFinished, int quantumTimes = 100000);
-	void run() override;
-	bool isAvailable() const;
+	void run();
 	int getID();
 
 private:
 	int cpuID;
-	bool available = true;
 	int quantumTimes = 1;
 	std::shared_ptr<Process> process;
 	IActionFinished* actionFinished;

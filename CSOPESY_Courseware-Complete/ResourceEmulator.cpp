@@ -18,61 +18,43 @@ void ResourceEmulator::destroy()
 
 bool ResourceEmulator::scheduleCPUWork(std::shared_ptr<Process> process)
 {
-	//find first available working core.
-	std::shared_ptr<CPUWorker> availableCore = nullptr;
-	for(int i = 0; i < MAX_CPU_CORES; i++)
+	//create a working core if available
+	this->mutex->acquire();
+	if(this->hasAvailableCPU())
 	{
-		if(this->workingCores[i]->isAvailable())
-		{
-			availableCore = this->workingCores[i];
-			break;
-		}
-	}
+		CPUWorker availableCore(this->numWorkingCores);
+		availableCore.assignExecutable(process, this);
+		// availableCore.start();
 
-	if(availableCore != nullptr)
-	{
-		availableCore->assignExecutable(process, this);
-		availableCore->start();
+		this->numWorkingCores++;
+		this->mutex->release();
 		return true;
 	}
 	else
 	{
 		std::cerr << "Cannot schedule CPU work. All cores occupied." << std::endl;
+		this->mutex->release();
 		return false;
 	}
 }
 
-bool ResourceEmulator::hasAvailableCPU()
+bool ResourceEmulator::hasAvailableCPU() const
 {
-	for (int i = 0; i < MAX_CPU_CORES; i++)
-	{
-		if (this->workingCores[i]->isAvailable() == false)
-		{
-			return false;
-		}
-	}
-
-	return true;
+	return this->numWorkingCores < MAX_CPU_CORES;
 }
 
 void ResourceEmulator::onActionFinished(int cpuID)
 {
 	//reset the working cpu core
 	this->mutex->acquire();
-	// this->workingCores[cpuID] = nullptr;
-	// this->workingCores[cpuID] = std::make_shared<CPUWorker>(cpuID);
-	this->workingCores[cpuID]->available = true;
-	this->mutex.release();
+	this->numWorkingCores--;
+	this->mutex->release();
 }
 
 ResourceEmulator::ResourceEmulator()
 {
-	for(int i = 0; i < MAX_CPU_CORES; i++)
-	{
-		this->workingCores[i] = std::make_shared<CPUWorker>(i);
-	}
-
-	this->mutex = std::make_unique<IETSemaphore>(1);
+	this->numWorkingCores = 0;
+	this->mutex = std::make_shared<IETSemaphore>(1);
 }
 
 CPUWorker::CPUWorker(int cpuID)
@@ -85,12 +67,13 @@ void CPUWorker::assignExecutable(std::shared_ptr<Process> process, IActionFinish
 	this->process = process;
 	this->actionFinished = actionFinished;
 	this->quantumTimes = quantumTimes;
+
+	std::thread(&CPUWorker::run, this).detach(); //detach thread for independent execution. without this, join() function must be called.
 }
 
 void CPUWorker::run()
 {
 	//cpu start
-	this->available = false;
 	for(int i = 0; i < this->quantumTimes; i++)
 	{
 		if(this->process->getRemainingTime() > 0)
@@ -103,14 +86,7 @@ void CPUWorker::run()
 			break;
 		}
 	}
-
+	
 	//cpu end
-	this->available = true;
-	this->process = nullptr;
 	this->actionFinished->onActionFinished(this->cpuID);
-}
-
-bool CPUWorker::isAvailable() const
-{
-	return this->available;
 }

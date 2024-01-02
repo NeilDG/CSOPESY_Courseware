@@ -10,7 +10,6 @@
 
 SchedulingConsole::SchedulingConsole() : AConsole(SCHEDULING_CONSOLE)
 {
-    
     if(SchedulerType::SCHEDULER_TYPE == 1)
     {
         this->scheduler = std::make_shared<FCFSScheduler>();
@@ -28,7 +27,7 @@ SchedulingConsole::SchedulingConsole() : AConsole(SCHEDULING_CONSOLE)
 
 void SchedulingConsole::onEnabled()
 {
-
+    this->chosenConsole->onEnabled();
 }
 
 void SchedulingConsole::process()
@@ -139,6 +138,7 @@ Scheduling_UIVersion2::Scheduling_UIVersion2(std::shared_ptr<AScheduler> schedul
 
 void Scheduling_UIVersion2::onEnabled()
 {
+    this->scheduler->init();
 }
 
 void Scheduling_UIVersion2::process()
@@ -168,7 +168,6 @@ void Scheduling_UIVersion2::display()
 
     if (command == "csopesy-smi" || command == "nvidia-smi")
     {
-        std::cout << this->scheduler->getLatestMsg() << std::endl;
         std::cout << "One bar means one command/remaining time." << std::endl;
         for (int i = 0; i < ptList.size(); i++)
         {

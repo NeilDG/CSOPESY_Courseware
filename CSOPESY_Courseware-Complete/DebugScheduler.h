@@ -9,6 +9,7 @@ class DebugScheduler : public AScheduler
 {
 public:
 	DebugScheduler();
+	void init() override;
 	void execute() override;
 
 private:

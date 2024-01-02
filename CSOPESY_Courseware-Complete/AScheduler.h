@@ -27,6 +27,8 @@ public:
 
 	void run() override;
 	void stop();
+
+	virtual void init() = 0;
 	virtual void execute() = 0;
 
 	struct ProcessTimeInfo

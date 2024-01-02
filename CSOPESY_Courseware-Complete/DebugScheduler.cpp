@@ -10,6 +10,10 @@ DebugScheduler::DebugScheduler() : AScheduler(SchedulingAlgorithm::DEBUG, 0, DEB
 {
 }
 
+void DebugScheduler::init()
+{
+}
+
 /**
  * \brief Simply goes through the process queue and executes each process one by one
  */

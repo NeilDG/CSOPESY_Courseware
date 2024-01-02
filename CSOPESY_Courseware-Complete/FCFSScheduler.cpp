@@ -7,9 +7,14 @@ FCFSScheduler::FCFSScheduler() : AScheduler(SchedulingAlgorithm::FCFS, 0, FCFS_S
 
 }
 
+void FCFSScheduler::init()
+{
+	ResourceEmulator::getInstance()->startAllCPUs();
+}
+
 void FCFSScheduler::execute()
 {
-	const ResourceEmulator* resourceEmulator = ResourceEmulator::getInstance();
+	ResourceEmulator* resourceEmulator = ResourceEmulator::getInstance();
 
 	if(resourceEmulator->hasAvailableCPU())
 	{

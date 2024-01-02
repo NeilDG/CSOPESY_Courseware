@@ -38,6 +38,12 @@ bool Process::isFinished() const
 {
 	return this->commandIndex == this->commandList.size();
 }
+
+int Process::getRemainingTime() const
+{
+	return this->commandList.size() - this->commandIndex;
+}
+
 int Process::getPID() const
 {
 	return this->pid;

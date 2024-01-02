@@ -1,17 +1,17 @@
 #include "DebugScheduler.h"
 #include <iostream>
+
+#include "AScheduler.h"
 #include "IETThread.h"
 #include "Process.h"
 #include "GlobalConfig.h"
 
-void DebugScheduler::test_storeRandomProcessesInQueue(int limit)
+DebugScheduler::DebugScheduler() : AScheduler(SchedulingAlgorithm::DEBUG, 0, DEBUG_SCHEDULER_NAME)
 {
-	for(int i = 0; i < limit; i++)
-	{
-		std::shared_ptr<Process> p = std::make_shared<Process>(i + 1);
-		p->test_generateRandomCommands(10);
-		this->processQueue.push(p);
-	}
+}
+
+void DebugScheduler::init()
+{
 }
 
 /**

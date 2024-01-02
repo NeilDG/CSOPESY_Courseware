@@ -15,8 +15,5 @@ public:
 
 	String name;
 	friend class ConsoleManager;
-
-	static bool isKeyPressed();
-	static char getPressedKey();
 };
 

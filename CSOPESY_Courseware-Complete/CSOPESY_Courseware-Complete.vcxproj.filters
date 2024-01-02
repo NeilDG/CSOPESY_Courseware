@@ -50,6 +50,18 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Input</Filter>
     </ClCompile>
+    <ClCompile Include="MessageBuffer.cpp">
+      <Filter>ConsoleUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AScheduler.cpp">
+      <Filter>CPU</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEmulator.cpp">
+      <Filter>CPU</Filter>
+    </ClCompile>
+    <ClCompile Include="FCFSScheduler.cpp">
+      <Filter>CPU</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FileSystem">
@@ -146,6 +158,18 @@
     </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageBuffer.h">
+      <Filter>ConsoleUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AScheduler.h">
+      <Filter>CPU</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEmulator.h">
+      <Filter>CPU</Filter>
+    </ClInclude>
+    <ClInclude Include="FCFSScheduler.h">
+      <Filter>CPU</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

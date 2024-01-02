@@ -12,6 +12,7 @@ public:
 	void moveToNextLine();
 
 	bool isFinished() const;
+	int getRemainingTime() const;
 	int getPID() const;
 
 

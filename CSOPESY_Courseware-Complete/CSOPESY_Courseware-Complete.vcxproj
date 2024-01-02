@@ -129,9 +129,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AConsole.cpp" />
+    <ClCompile Include="AScheduler.cpp" />
     <ClCompile Include="ConsoleManager.cpp" />
     <ClCompile Include="DebugScheduler.cpp" />
     <ClCompile Include="EventBroadcaster.cpp" />
+    <ClCompile Include="FCFSScheduler.cpp" />
     <ClCompile Include="FileSystem.cpp" />
     <ClCompile Include="IETSemaphore.cpp" />
     <ClCompile Include="IETThread.cpp" />
@@ -142,16 +144,20 @@
     <ClCompile Include="MarqueeConsole.cpp" />
     <ClCompile Include="MarqueeWorkerThread.cpp" />
     <ClCompile Include="MathUtils.cpp" />
+    <ClCompile Include="MessageBuffer.cpp" />
     <ClCompile Include="PrintCommand.cpp" />
     <ClCompile Include="Process.cpp" />
+    <ClCompile Include="ResourceEmulator.cpp" />
     <ClCompile Include="SchedulingConsole.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AConsole.h" />
+    <ClInclude Include="AScheduler.h" />
     <ClInclude Include="ConsoleManager.h" />
     <ClInclude Include="DebugScheduler.h" />
     <ClInclude Include="EventBroadcaster.h" />
     <ClInclude Include="EventNames.h" />
+    <ClInclude Include="FCFSScheduler.h" />
     <ClInclude Include="FileSystem.h" />
     <ClInclude Include="GlobalConfig.h" />
     <ClInclude Include="ICommand.h" />
@@ -163,8 +169,10 @@
     <ClInclude Include="MarqueeConsole.h" />
     <ClInclude Include="MarqueeWorkerThread.h" />
     <ClInclude Include="MathUtils.h" />
+    <ClInclude Include="MessageBuffer.h" />
     <ClInclude Include="PrintCommand.h" />
     <ClInclude Include="Process.h" />
+    <ClInclude Include="ResourceEmulator.h" />
     <ClInclude Include="SchedulingConsole.h" />
     <ClInclude Include="TypedefRepo.h" />
   </ItemGroup>

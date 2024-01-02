@@ -1,21 +1,18 @@
 #pragma once
 #include <memory>
 #include <queue>
-
+#include <sstream>
+#include "AScheduler.h"
 #include "Process.h"
 
-class DebugScheduler
+class DebugScheduler : public AScheduler
 {
 public:
-	DebugScheduler() = default;
-
-	void test_storeRandomProcessesInQueue(int limit);
-	void execute();
+	DebugScheduler();
+	void init() override;
+	void execute() override;
 
 private:
-	typedef std::queue<std::shared_ptr<Process>> ProcessQueue;
-	ProcessQueue processQueue;
-
 	std::shared_ptr<Process> currentProcess = nullptr;
 };
 

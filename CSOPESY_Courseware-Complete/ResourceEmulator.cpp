@@ -16,7 +16,7 @@ void ResourceEmulator::destroy()
 	delete sharedInstance;
 }
 
-bool ResourceEmulator::scheduleCPUWork(IExecutableAction* executableAction)
+bool ResourceEmulator::scheduleCPUWork(std::shared_ptr<Process> process)
 {
 	//find first available working core.
 	std::shared_ptr<CPUWorker> availableCore = nullptr;
@@ -31,7 +31,7 @@ bool ResourceEmulator::scheduleCPUWork(IExecutableAction* executableAction)
 
 	if(availableCore != nullptr)
 	{
-		availableCore->assignExecutable(executableAction, this);
+		availableCore->assignExecutable(process, this);
 		availableCore->start();
 		return true;
 	}
@@ -42,11 +42,27 @@ bool ResourceEmulator::scheduleCPUWork(IExecutableAction* executableAction)
 	}
 }
 
+bool ResourceEmulator::hasAvailableCPU()
+{
+	for (int i = 0; i < MAX_CPU_CORES; i++)
+	{
+		if (this->workingCores[i]->isAvailable() == false)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 void ResourceEmulator::onActionFinished(int cpuID)
 {
 	//reset the working cpu core
-	this->workingCores[cpuID] = nullptr;
-	this->workingCores[cpuID] = std::make_shared<CPUWorker>(cpuID);
+	this->mutex->acquire();
+	// this->workingCores[cpuID] = nullptr;
+	// this->workingCores[cpuID] = std::make_shared<CPUWorker>(cpuID);
+	this->workingCores[cpuID]->available = true;
+	this->mutex.release();
 }
 
 ResourceEmulator::ResourceEmulator()
@@ -55,6 +71,8 @@ ResourceEmulator::ResourceEmulator()
 	{
 		this->workingCores[i] = std::make_shared<CPUWorker>(i);
 	}
+
+	this->mutex = std::make_unique<IETSemaphore>(1);
 }
 
 CPUWorker::CPUWorker(int cpuID)
@@ -62,21 +80,33 @@ CPUWorker::CPUWorker(int cpuID)
 	this->cpuID = cpuID;
 }
 
-void CPUWorker::assignExecutable(IExecutableAction* executableAction, IActionFinished* actionFinished)
+void CPUWorker::assignExecutable(std::shared_ptr<Process> process, IActionFinished* actionFinished, int quantumTimes)
 {
-	this->executableAction = executableAction;
+	this->process = process;
 	this->actionFinished = actionFinished;
+	this->quantumTimes = quantumTimes;
 }
 
 void CPUWorker::run()
 {
 	//cpu start
 	this->available = false;
-	this->executableAction->executeAction();
+	for(int i = 0; i < this->quantumTimes; i++)
+	{
+		if(this->process->getRemainingTime() > 0)
+		{
+			this->process->executeCurrentCommand();
+			this->process->moveToNextLine();
+		}
+		else
+		{
+			break;
+		}
+	}
 
 	//cpu end
 	this->available = true;
-	this->executableAction = nullptr;
+	this->process = nullptr;
 	this->actionFinished->onActionFinished(this->cpuID);
 }
 

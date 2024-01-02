@@ -1,5 +1,6 @@
 #include "FCFSScheduler.h"
 #include "AScheduler.h"
+#include "ResourceEmulator.h"
 
 FCFSScheduler::FCFSScheduler() : AScheduler(SchedulingAlgorithm::FCFS, 0, FCFS_SCHEDULER_NAME)
 {
@@ -8,29 +9,32 @@ FCFSScheduler::FCFSScheduler() : AScheduler(SchedulingAlgorithm::FCFS, 0, FCFS_S
 
 void FCFSScheduler::execute()
 {
-	if (this->currentProcess == nullptr || this->currentProcess->isFinished())
+	ResourceEmulator* resourceEmulator = ResourceEmulator::getInstance();
+
+	if(resourceEmulator->hasAvailableCPU())
 	{
 		if (!this->processQueue.empty())
 		{
-			this->currentProcess = this->processQueue.front();
+			ResourceEmulator::getInstance()->scheduleCPUWork(this->processQueue.front());
 			this->processQueue.pop();
 		}
 	}
-	else if (!this->currentProcess->isFinished())
+	else
 	{
-		//schedule to CPU
-		ResourceEmulator::getInstance()->scheduleCPUWork(this);
+		this->outputBuffer << FCFS_SCHEDULER_NAME << "- Waiting for available CPU" << std::endl;
 	}
-}
 
-//TODO: Revise such that the process is assigned to the CPU itself.
-void FCFSScheduler::executeAction()
-{
-	//work to be done in CPU
-	this->currentProcess->executeCurrentCommand();
-	this->currentProcess->moveToNextLine();
-}
-
-String FCFSScheduler::getLatestMsg()
-{
+	// if (this->currentProcess == nullptr || this->currentProcess->isFinished())
+	// {
+	// 	if (!this->processQueue.empty())
+	// 	{
+	// 		this->currentProcess = this->processQueue.front();
+	// 		this->processQueue.pop();
+	// 	}
+	// }
+	// else if (!this->currentProcess->isFinished())
+	// {
+	// 	//schedule to CPU
+	// 	bool success = ResourceEmulator::getInstance()->scheduleCPUWork(this->currentProcess);
+	// }
 }

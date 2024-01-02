@@ -1,8 +1,9 @@
 #pragma once
 #include <unordered_map>
-
 #include "IETThread.h"
-class IExecutableAction;
+#include "Process.h"
+#include "IETSemaphore.h"
+
 class CPUWorker;
 class IActionFinished
 {
@@ -23,7 +24,8 @@ public:
 
 	//One cpu core = one thread
 	typedef std::unordered_map<int, std::shared_ptr<CPUWorker>> CPUCoreGroup;
-	bool scheduleCPUWork(IExecutableAction* executableAction);
+	bool scheduleCPUWork(std::shared_ptr<Process> process);
+	bool hasAvailableCPU();
 	void onActionFinished(int cpuID) override;
 
 private:
@@ -34,13 +36,16 @@ private:
 	static ResourceEmulator* sharedInstance;
 
 	CPUCoreGroup workingCores;
+
+	//mutual exclusion semaphore
+	std::unique_ptr<IETSemaphore> mutex;
 };
 
 class CPUWorker: public IETThread
 {
 public:
 	CPUWorker(int cpuID);
-	void assignExecutable(IExecutableAction* executableAction, IActionFinished* actionFinished);
+	void assignExecutable(std::shared_ptr<Process> process, IActionFinished* actionFinished, int quantumTimes = 100000);
 	void run() override;
 	bool isAvailable() const;
 	int getID();
@@ -48,13 +53,10 @@ public:
 private:
 	int cpuID;
 	bool available = true;
-	IExecutableAction* executableAction;
+	int quantumTimes = 1;
+	std::shared_ptr<Process> process;
 	IActionFinished* actionFinished;
-};
 
-class IExecutableAction
-{
-public:
-	virtual void executeAction() = 0;
+	friend class ResourceEmulator;
 };
 

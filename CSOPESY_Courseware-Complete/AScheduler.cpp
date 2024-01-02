@@ -33,6 +33,18 @@ std::vector<AScheduler::ProcessTimeInfo> AScheduler::getAllProcessRemainingTime(
 	return ptList;
 }
 
+String AScheduler::getName()
+{
+	return this->processName;
+}
+
+String AScheduler::getLatestMsg()
+{
+	String displayMsg = this->outputBuffer.str();
+	this->outputBuffer.str(std::string());
+	return displayMsg;
+}
+
 void AScheduler::test_storeRandomProcessesInQueue(int limit)
 {
 	for (int i = 0; i < limit; i++)

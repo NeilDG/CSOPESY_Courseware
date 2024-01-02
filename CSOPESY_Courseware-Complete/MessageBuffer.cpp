@@ -19,7 +19,7 @@ void MessageBuffer::destroy()
  */
 void MessageBuffer::log(String message)
 {
-	sharedInstance->backlogMessages.push_back(message);
+	// sharedInstance->backlogMessages.push_back(message);
 }
 
 void MessageBuffer::log(std::stringstream message)

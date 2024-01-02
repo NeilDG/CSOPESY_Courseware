@@ -10,10 +10,8 @@ class DebugScheduler : public AScheduler
 public:
 	DebugScheduler();
 	void execute() override;
-	String getLatestMsg();
 
 private:
 	std::shared_ptr<Process> currentProcess = nullptr;
-	std::stringstream outputBuffer;
 };
 

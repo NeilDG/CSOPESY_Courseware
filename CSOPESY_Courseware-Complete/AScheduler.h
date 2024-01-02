@@ -1,5 +1,6 @@
 #pragma once
 #include <queue>
+#include <sstream>
 
 #include "IETThread.h"
 #include "Process.h"
@@ -35,6 +36,8 @@ public:
 	};
 
 	std::vector<ProcessTimeInfo> getAllProcessRemainingTime() const;
+	String getName();
+	String getLatestMsg();
 
 	//test functions
 	void test_storeRandomProcessesInQueue(int limit);
@@ -44,6 +47,7 @@ protected:
 	typedef std::vector<std::shared_ptr<Process>> ProcessList;
 	ProcessQueue processQueue;
 	ProcessList processList;
+	std::stringstream outputBuffer;
 
 private:
 	SchedulingAlgorithm schedulingAlgo;

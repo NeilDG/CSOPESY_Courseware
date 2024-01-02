@@ -1,17 +1,29 @@
 #include "SchedulingConsole.h"
 #include "ConsoleManager.h"
 #include "DebugScheduler.h"
+#include "FCFSScheduler.h"
 #include "IETThread.h"
 #include "InputManager.h"
 #include "MessageBuffer.h"
+#include "GlobalConfig.h"
+
 
 SchedulingConsole::SchedulingConsole() : AConsole(SCHEDULING_CONSOLE)
 {
-    this->debugScheduler = std::make_shared<DebugScheduler>();
-    this->debugScheduler->test_storeRandomProcessesInQueue(50);
+    
+    if(SchedulerType::SCHEDULER_TYPE == 1)
+    {
+        this->scheduler = std::make_shared<FCFSScheduler>();
+    }
+    else
+    {
+        this->scheduler = std::make_shared<DebugScheduler>();
+    }
 
-    // this->chosenConsole = std::make_unique<Scheduling_UIVersion1>(this->debugScheduler);
-    this->chosenConsole = std::make_unique<Scheduling_UIVersion2>(this->debugScheduler);
+    this->scheduler->test_storeRandomProcessesInQueue(50);
+
+    // this->chosenConsole = std::make_unique<Scheduling_UIVersion1>(this->scheduler);
+    this->chosenConsole = std::make_unique<Scheduling_UIVersion2>(this->scheduler);
 }
 
 void SchedulingConsole::onEnabled()
@@ -30,7 +42,7 @@ void SchedulingConsole::display()
     this->chosenConsole->display();
 }
 
-Scheduling_UIVersion1::Scheduling_UIVersion1(std::shared_ptr<DebugScheduler> scheduler) : AConsole(SCHEDULING_CONSOLE)
+Scheduling_UIVersion1::Scheduling_UIVersion1(std::shared_ptr<AScheduler> scheduler) : AConsole(SCHEDULING_CONSOLE)
 {
     this->scheduler = scheduler;
     this->messageRow = 3;
@@ -103,7 +115,7 @@ void Scheduling_UIVersion1::display()
         std::cout << spaces;
         ConsoleManager::getInstance()->setCursorPosition(0, this->messageRow);
 
-        // this->debugScheduler->execute();
+        // this->scheduler->execute();
         MessageBuffer::printBacklogMessages();
         this->messageRow = (this->messageRow + 1) % (Console::HEIGHT - 2);
     }
@@ -118,7 +130,7 @@ void Scheduling_UIVersion1::display()
     ConsoleManager::getInstance()->setCursorPosition(this->btmCommandPosition, Console::HEIGHT - 1);
 }
 
-Scheduling_UIVersion2::Scheduling_UIVersion2(std::shared_ptr<DebugScheduler> scheduler) : AConsole(SCHEDULING_CONSOLE)
+Scheduling_UIVersion2::Scheduling_UIVersion2(std::shared_ptr<AScheduler> scheduler) : AConsole(SCHEDULING_CONSOLE)
 {
     this->scheduler = scheduler;
     this->ui2flags.schedulerRunning = false;
@@ -143,9 +155,9 @@ void Scheduling_UIVersion2::display()
     if (this->ui2flags.printHeader)
     {
         ConsoleManager::getInstance()->setCursorPosition(0, 0);
-        std::cout << "*****************************************" << std::endl;
-        std::cout << "* Displaying a scheduling console! *" << std::endl;
-        std::cout << "*****************************************" << std::endl;
+        std::cout << "***************************************************************************************************" << std::endl;
+        std::cout << "* Displaying a scheduling console! Using scheduler: " << this->scheduler->getName() << "          *" << std::endl;
+        std::cout << "***************************************************************************************************" << std::endl;
         this->ui2flags.printHeader = false;
     }
     std::vector<DebugScheduler::ProcessTimeInfo> ptList = this->scheduler->getAllProcessRemainingTime();
@@ -156,6 +168,7 @@ void Scheduling_UIVersion2::display()
 
     if (command == "csopesy-smi" || command == "nvidia-smi")
     {
+        std::cout << this->scheduler->getLatestMsg() << std::endl;
         std::cout << "One bar means one command/remaining time." << std::endl;
         for (int i = 0; i < ptList.size(); i++)
         {

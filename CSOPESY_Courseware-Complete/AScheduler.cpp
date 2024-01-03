@@ -47,9 +47,11 @@ String AScheduler::getLatestMsg()
 
 void AScheduler::test_storeRandomProcessesInQueue(int limit)
 {
+	Process::RequirementFlags reqFlags = { ProcessRequirementFlags_CONFIG::REQUIRE_FILES, ProcessRequirementFlags_CONFIG::NUM_FILES,
+		ProcessRequirementFlags_CONFIG::REQUIRE_MEMORY, ProcessRequirementFlags_CONFIG::MEMORY_REQUIRED };
 	for (int i = 0; i < limit; i++)
 	{
-		std::shared_ptr<Process> p = std::make_shared<Process>(i + 1);
+		std::shared_ptr<Process> p = std::make_shared<Process>(i + 1, reqFlags);
 		p->test_generateRandomCommands(100);
 		this->processQueue.push(p);
 		this->processList.push_back(p);

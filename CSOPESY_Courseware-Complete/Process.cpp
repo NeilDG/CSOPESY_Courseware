@@ -3,10 +3,11 @@
 #include "MathUtils.h"
 #include "PrintCommand.h"
 
-Process::Process(int pid)
+Process::Process(int pid, RequirementFlags requirementFlags)
 {
 	this->pid = pid;
 	this->commandIndex = 0;
+	this->requirementFlags = requirementFlags;
 }
 
 void Process::addCommand(ICommand::CommandType commandType)

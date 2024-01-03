@@ -6,7 +6,15 @@
 class Process
 {
 public:
-	Process(int pid);
+	struct RequirementFlags
+	{
+		bool requireFiles;
+		int numFiles;
+		bool requireMemory;
+		int memoryRequired;
+	};
+
+	Process(int pid, RequirementFlags requirementFlags);
 	void addCommand(ICommand::CommandType commandType);
 	void executeCurrentCommand() const;
 	void moveToNextLine();
@@ -14,7 +22,6 @@ public:
 	bool isFinished() const;
 	int getRemainingTime() const;
 	int getPID() const;
-
 
 	void test_generateRandomCommands(int limit);
 
@@ -24,5 +31,6 @@ private:
 	CommandList commandList;
 
 	int commandIndex;
+	RequirementFlags requirementFlags;
 };
 

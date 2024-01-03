@@ -135,6 +135,7 @@
     <ClCompile Include="EventBroadcaster.cpp" />
     <ClCompile Include="FCFSScheduler.cpp" />
     <ClCompile Include="FileSystem.cpp" />
+    <ClCompile Include="FlatMemoryAllocator.cpp" />
     <ClCompile Include="IETSemaphore.cpp" />
     <ClCompile Include="IETThread.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -144,6 +145,7 @@
     <ClCompile Include="MarqueeConsole.cpp" />
     <ClCompile Include="MarqueeWorkerThread.cpp" />
     <ClCompile Include="MathUtils.cpp" />
+    <ClCompile Include="MemoryManager.cpp" />
     <ClCompile Include="MessageBuffer.cpp" />
     <ClCompile Include="PrintCommand.cpp" />
     <ClCompile Include="Process.cpp" />
@@ -159,16 +161,19 @@
     <ClInclude Include="EventNames.h" />
     <ClInclude Include="FCFSScheduler.h" />
     <ClInclude Include="FileSystem.h" />
+    <ClInclude Include="FlatMemoryAllocator.h" />
     <ClInclude Include="GlobalConfig.h" />
     <ClInclude Include="ICommand.h" />
     <ClInclude Include="IETSemaphore.h" />
     <ClInclude Include="IETThread.h" />
+    <ClInclude Include="IMemoryAllocator.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="IOCommand.h" />
     <ClInclude Include="MainConsole.h" />
     <ClInclude Include="MarqueeConsole.h" />
     <ClInclude Include="MarqueeWorkerThread.h" />
     <ClInclude Include="MathUtils.h" />
+    <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="MessageBuffer.h" />
     <ClInclude Include="PrintCommand.h" />
     <ClInclude Include="Process.h" />

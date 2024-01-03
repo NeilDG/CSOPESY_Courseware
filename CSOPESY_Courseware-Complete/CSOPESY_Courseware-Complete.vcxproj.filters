@@ -62,6 +62,12 @@
     <ClCompile Include="FCFSScheduler.cpp">
       <Filter>CPU</Filter>
     </ClCompile>
+    <ClCompile Include="MemoryManager.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="FlatMemoryAllocator.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FileSystem">
@@ -96,6 +102,9 @@
     </Filter>
     <Filter Include="Input">
       <UniqueIdentifier>{cfb345c2-9a97-4be2-af58-1e61a3285ff7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{7cab06e4-0b0e-4b7e-aef2-03b7bb95978f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +179,15 @@
     </ClInclude>
     <ClInclude Include="FCFSScheduler.h">
       <Filter>CPU</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryManager.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="IMemoryAllocator.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="FlatMemoryAllocator.h">
+      <Filter>Memory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

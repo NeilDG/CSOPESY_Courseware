@@ -10,6 +10,7 @@
 #include "ConsoleManager.h"
 #include "FileSystem.h"
 #include "InputManager.h"
+#include "MemoryManager.h"
 #include "MessageBuffer.h"
 #include "ResourceEmulator.h"
 
@@ -33,16 +34,34 @@ int main()
     ConsoleManager::initialize();
     MessageBuffer::initialize();
     ResourceEmulator::initialize();
+    MemoryManager::initialize();
     
-    bool running = true;
-    while(running)
-    {
-        ConsoleManager::getInstance()->process();
-        ConsoleManager::getInstance()->drawConsole();
+    // bool running = true;
+    // while(running)
+    // {
+    //     ConsoleManager::getInstance()->process();
+    //     ConsoleManager::getInstance()->drawConsole();
+    //
+    //     running = ConsoleManager::getInstance()->isRunning();
+    // }
 
-        running = ConsoleManager::getInstance()->isRunning();
-    }
+    // Allocate memory
+    MemoryManager* memoryManager = MemoryManager::getInstance();
 
+    void* ptr1 = memoryManager->allocate(64);
+    void* ptr2 = memoryManager->allocate(64);
+
+    // Visualize memory
+    std::cout << memoryManager->visualizeMemory();
+    //
+    // Deallocate memory
+    memoryManager->deallocate(ptr1, 32);
+    memoryManager->deallocate(ptr2, 32);
+    
+    // Visualize memory after deallocation
+    std::cout << memoryManager->visualizeMemory();
+
+    MemoryManager::destroy();
     ResourceEmulator::destroy();
     MessageBuffer::destroy();
     ConsoleManager::destroy();

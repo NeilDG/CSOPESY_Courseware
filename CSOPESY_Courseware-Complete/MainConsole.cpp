@@ -104,6 +104,10 @@ void MainConsole::process()
     {
         ConsoleManager::getInstance()->switchConsole(SCHEDULING_CONSOLE);
     }
+    else if (command == "memory")
+    {
+        ConsoleManager::getInstance()->switchConsole(MEMORY_CONSOLE);
+    }
     else {
         // Simulate command execution
         std::cout << "Executing command: " << command << std::endl;

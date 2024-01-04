@@ -36,30 +36,16 @@ int main()
     ResourceEmulator::initialize();
     MemoryManager::initialize();
     
-    // bool running = true;
-    // while(running)
-    // {
-    //     ConsoleManager::getInstance()->process();
-    //     ConsoleManager::getInstance()->drawConsole();
-    //
-    //     running = ConsoleManager::getInstance()->isRunning();
-    // }
-
-    // Allocate memory
-    MemoryManager* memoryManager = MemoryManager::getInstance();
-
-    void* ptr1 = memoryManager->allocate(64);
-    void* ptr2 = memoryManager->allocate(64);
-
-    // Visualize memory
-    std::cout << memoryManager->visualizeMemory();
-    //
-    // Deallocate memory
-    memoryManager->deallocate(ptr1, 32);
-    memoryManager->deallocate(ptr2, 32);
+    bool running = true;
+    while(running)
+    {
+        ConsoleManager::getInstance()->process();
+        ConsoleManager::getInstance()->drawConsole();
     
-    // Visualize memory after deallocation
-    std::cout << memoryManager->visualizeMemory();
+        running = ConsoleManager::getInstance()->isRunning();
+    }
+
+    // MemoryManager::test_MemoryAllocation();
 
     MemoryManager::destroy();
     ResourceEmulator::destroy();

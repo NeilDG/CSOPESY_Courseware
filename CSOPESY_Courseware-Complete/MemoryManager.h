@@ -3,6 +3,12 @@
 
 #include "IMemoryAllocator.h"
 
+
+const String NO_MEMORY_ALLOCATOR_STRING = "NoMemory-Emulation";
+const String FLAT_MEMORY_ALLOCATOR_STRING = "FlatMemory";
+const String SEGMENTATION_ALLOCATOR_STRING = "Segmentation";
+const String PAGING_ALLOCATOR_STRING = "Paging";
+
 class MemoryManager
 {
 public:
@@ -11,8 +17,12 @@ public:
 	static void destroy();
 
 	void* allocate(size_t size) const;
-	void deallocate(void* ptr, size_t size) const;
+	void deallocate(void* ptr) const;
 	String visualizeMemory() const;
+	String getMemoryAllocatorName();
+
+	//test functions
+	static void test_MemoryAllocation();
 
 private:
 	MemoryManager();
@@ -22,6 +32,7 @@ private:
 	static MemoryManager* sharedInstance;
 
 	std::shared_ptr<IMemoryAllocator> memoryAllocator;
+	String memoryAllocatorName;
 
 };
 

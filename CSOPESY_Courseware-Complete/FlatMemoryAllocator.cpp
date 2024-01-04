@@ -22,6 +22,7 @@ void* FlatMemoryAllocator::allocate(size_t size)
 
 		this->currentAllocatedSize += size;
 
+		std::cout << "Memory allocation successful. Occupied " << size << " bytes" << std::endl;
 		return &memoryBlock[allocatedBlock.start];
 	}
 	else
@@ -31,23 +32,24 @@ void* FlatMemoryAllocator::allocate(size_t size)
 	}
 }
 
-void FlatMemoryAllocator::deallocate(void* ptr, size_t size)
+void FlatMemoryAllocator::deallocate(void* ptr)
 {
 	// Find the MemoryBlock corresponding to the deallocated pointer
 	for (size_t i = 0; i < freeBlocks.size(); ++i) {
 		if (&memoryBlock[freeBlocks[i].start] == ptr) {
-			// Mark the block as free
-			//freeBlocks[i].size = 0;
-
 			// Update the total allocated size
 			this->currentAllocatedSize -= freeBlocks[i].size;
 
+			std::cout << "Memory de-allocation successful. Freed " << freeBlocks[i].size << " bytes" << std::endl;
+
+			// Mark the block as free
+			freeBlocks[i].size = 0;
 			return;  // Found and deallocated, exit the function
 		}
 	}
 
 	// If the loop completes without finding the block, print an error message
-	std::cerr << "Invalid deallocation. The pointer does not belong to this memory manager." << std::endl;
+	std::cerr << "Invalid de-allocation. The pointer does not belong to this memory manager." << std::endl;
 }
 
 String FlatMemoryAllocator::visualizeMemory()

@@ -6,6 +6,7 @@
 /**
  * \brief Interface for the memory allocator. Uses size_t for the memory sizes to accept any types of object that needs memory.
  */
+
 class IMemoryAllocator
 {
 public:
@@ -16,7 +17,7 @@ public:
 		PAGING,
 	};
 	virtual void* allocate(size_t size) = 0;
-	virtual void deallocate(void* ptr, size_t size) = 0;
+	virtual void deallocate(void* ptr) = 0;
 	virtual String visualizeMemory() = 0;
 
 protected:

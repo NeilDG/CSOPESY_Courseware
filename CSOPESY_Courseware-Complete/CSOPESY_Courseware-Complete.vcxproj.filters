@@ -68,6 +68,9 @@
     <ClCompile Include="FlatMemoryAllocator.cpp">
       <Filter>Memory</Filter>
     </ClCompile>
+    <ClCompile Include="MemorySimulationConsole.cpp">
+      <Filter>ConsoleUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FileSystem">
@@ -188,6 +191,9 @@
     </ClInclude>
     <ClInclude Include="FlatMemoryAllocator.h">
       <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="MemorySimulationConsole.h">
+      <Filter>ConsoleUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

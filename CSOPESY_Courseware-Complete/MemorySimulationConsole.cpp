@@ -19,7 +19,7 @@ MemorySimulationConsole::MemorySimulationConsole() : AConsole(MEMORY_CONSOLE)
         this->scheduler = std::make_shared<DebugScheduler>();
     }
 
-    this->scheduler->test_storeRandomProcessesInQueue(50);
+    // this->scheduler->test_storeRandomProcessesInQueue(50);
 
     if(MemoryAllocatorType::MEMORY_ALLOCATOR_TYPE == 1)
     {

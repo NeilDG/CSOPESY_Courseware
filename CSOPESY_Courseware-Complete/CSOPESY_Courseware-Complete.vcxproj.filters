@@ -71,6 +71,12 @@
     <ClCompile Include="MemorySimulationConsole.cpp">
       <Filter>ConsoleUI</Filter>
     </ClCompile>
+    <ClCompile Include="BaseScreen.cpp">
+      <Filter>Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalScheduler.cpp">
+      <Filter>CPU</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FileSystem">
@@ -108,6 +114,9 @@
     </Filter>
     <Filter Include="Memory">
       <UniqueIdentifier>{7cab06e4-0b0e-4b7e-aef2-03b7bb95978f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screen">
+      <UniqueIdentifier>{a78bb655-44b3-4fd2-9df2-69242785e4df}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +203,12 @@
     </ClInclude>
     <ClInclude Include="MemorySimulationConsole.h">
       <Filter>ConsoleUI</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseScreen.h">
+      <Filter>Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalScheduler.h">
+      <Filter>CPU</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

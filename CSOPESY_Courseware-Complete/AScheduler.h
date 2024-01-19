@@ -1,6 +1,7 @@
 #pragma once
 #include <queue>
 #include <sstream>
+#include <unordered_map>
 
 #include "IETThread.h"
 #include "Process.h"
@@ -25,6 +26,8 @@ public:
 
 	AScheduler(SchedulingAlgorithm schedulingAlgo, int pid, String processName);
 
+	void addProcess(std::shared_ptr<Process> process);
+	std::shared_ptr<Process> findProcess(String processName);
 	void run() override;
 	void stop();
 
@@ -41,14 +44,14 @@ public:
 	String getName();
 	String getLatestMsg();
 
-	//test functions
-	void test_storeRandomProcessesInQueue(int limit);
-
 protected:
 	typedef std::queue<std::shared_ptr<Process>> ProcessQueue;
 	typedef std::vector<std::shared_ptr<Process>> ProcessList;
-	ProcessQueue processQueue;
+	typedef std::unordered_map<String, std::shared_ptr<Process>> ProcessMap;
+	ProcessQueue readyQueue;
 	ProcessList processList;
+	ProcessMap processMap;
+
 	std::stringstream outputBuffer;
 
 private:

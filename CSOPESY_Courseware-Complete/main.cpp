@@ -9,6 +9,7 @@
 
 #include "ConsoleManager.h"
 #include "FileSystem.h"
+#include "GlobalScheduler.h"
 #include "InputManager.h"
 #include "MemoryManager.h"
 #include "MessageBuffer.h"
@@ -31,6 +32,7 @@ int main()
     // FileSystem::getInstance()->test_createRandomFiles(1000);
     // FileSystem::getInstance()->saveFileSystem();
     FileSystem::getInstance()->loadFileSystem();
+    GlobalScheduler::initialize();
     ConsoleManager::initialize();
     MessageBuffer::initialize();
     ResourceEmulator::initialize();
@@ -51,6 +53,7 @@ int main()
     ResourceEmulator::destroy();
     MessageBuffer::destroy();
     ConsoleManager::destroy();
+    GlobalScheduler::destroy();
     InputManager::destroy();
     return 0;
 }

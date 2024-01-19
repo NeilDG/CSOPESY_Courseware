@@ -8,6 +8,25 @@ AScheduler::AScheduler(SchedulingAlgorithm schedulingAlgo, int pid, String proce
 	this->running = true;
 }
 
+void AScheduler::addProcess(std::shared_ptr<Process> process)
+{
+	this->readyQueue.push(process);
+	this->processList.push_back(process);
+	this->processMap[process->getName()] = process;
+}
+
+std::shared_ptr<Process> AScheduler::findProcess(String processName)
+{
+	if(this->processMap.contains(processName)) {
+		return this->processMap[processName];
+	}
+	else
+	{
+		// std::cout << "Process " << processName << " not found in " << this->getName() << std::endl;
+		return nullptr;
+	}
+}
+
 void AScheduler::run()
 {
 	while(this->running)
@@ -45,15 +64,4 @@ String AScheduler::getLatestMsg()
 	return displayMsg;
 }
 
-void AScheduler::test_storeRandomProcessesInQueue(int limit)
-{
-	Process::RequirementFlags reqFlags = { ProcessRequirementFlags_CONFIG::REQUIRE_FILES, ProcessRequirementFlags_CONFIG::NUM_FILES,
-		ProcessRequirementFlags_CONFIG::REQUIRE_MEMORY, ProcessRequirementFlags_CONFIG::MEMORY_REQUIRED };
-	for (int i = 0; i < limit; i++)
-	{
-		std::shared_ptr<Process> p = std::make_shared<Process>(i + 1, reqFlags);
-		p->test_generateRandomCommands(100);
-		this->processQueue.push(p);
-		this->processList.push_back(p);
-	}
-}
+

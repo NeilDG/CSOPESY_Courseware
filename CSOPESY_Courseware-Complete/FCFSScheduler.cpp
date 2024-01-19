@@ -18,10 +18,10 @@ void FCFSScheduler::execute()
 
 	if(resourceEmulator->hasAvailableCPU())
 	{
-		if (!this->processQueue.empty())
+		if (!this->readyQueue.empty())
 		{
-			ResourceEmulator::getInstance()->scheduleCPUWork(this->processQueue.front());
-			this->processQueue.pop();
+			ResourceEmulator::getInstance()->scheduleCPUWork(this->readyQueue.front());
+			this->readyQueue.pop();
 		}
 	}
 	else
@@ -32,10 +32,10 @@ void FCFSScheduler::execute()
 
 	// if (this->currentProcess == nullptr || this->currentProcess->isFinished())
 	// {
-	// 	if (!this->processQueue.empty())
+	// 	if (!this->readyQueue.empty())
 	// 	{
-	// 		this->currentProcess = this->processQueue.front();
-	// 		this->processQueue.pop();
+	// 		this->currentProcess = this->readyQueue.front();
+	// 		this->readyQueue.pop();
 	// 	}
 	// }
 	// else if (!this->currentProcess->isFinished())

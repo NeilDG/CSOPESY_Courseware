@@ -2,6 +2,7 @@
 #include <memory>
 #include <vector>
 #include "ICommand.h"
+#include "TypedefRepo.h"
 
 class Process
 {
@@ -14,7 +15,13 @@ public:
 		int memoryRequired;
 	};
 
-	Process(int pid, RequirementFlags requirementFlags);
+	struct CommandInfo
+	{
+		int currentCounter;
+		int linesOfCode;
+	};
+
+	Process(int pid, String name, RequirementFlags requirementFlags);
 	void addCommand(ICommand::CommandType commandType);
 	void executeCurrentCommand() const;
 	void moveToNextLine();
@@ -22,15 +29,18 @@ public:
 	bool isFinished() const;
 	int getRemainingTime() const;
 	int getPID() const;
+	String getName() const;
+	CommandInfo getCurrentCommandInfo() const;
 
 	void test_generateRandomCommands(int limit);
 
 private:
 	int pid;
+	String name;
 	typedef std::vector<std::shared_ptr<ICommand>> CommandList;
 	CommandList commandList;
 
-	int commandIndex;
+	int commandCounter;
 	RequirementFlags requirementFlags;
 };
 

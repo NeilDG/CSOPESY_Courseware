@@ -19,8 +19,7 @@ SchedulingConsole::SchedulingConsole() : AConsole(SCHEDULING_CONSOLE)
         this->scheduler = std::make_shared<DebugScheduler>();
     }
 
-    this->scheduler->test_storeRandomProcessesInQueue(50);
-
+    // this->scheduler->test_storeRandomProcessesInQueue(50);
     // this->chosenConsole = std::make_unique<Scheduling_UIVersion1>(this->scheduler);
     this->chosenConsole = std::make_unique<Scheduling_UIVersion2>(this->scheduler);
 }

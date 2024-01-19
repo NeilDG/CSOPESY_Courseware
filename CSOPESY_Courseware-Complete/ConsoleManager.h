@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <Windows.h>
 #include "TypedefRepo.h"
+#include "BaseScreen.h"
 
 const String MAIN_CONSOLE = "MAIN_CONSOLE";
 const String MARQUEE_CONSOLE = "MARQUEE_CONSOLE";
@@ -23,6 +24,11 @@ public:
 	void drawConsole() const;
 	void process() const;
 	void switchConsole(String consoleName);
+
+	void registerScreen(std::shared_ptr<BaseScreen> screenRef);
+	void switchToScreen(String screenName);
+	void unregisterScreen(String screenName);
+
 	void returnToPreviousConsole();
 	void exitApplication();
 	bool isRunning() const;

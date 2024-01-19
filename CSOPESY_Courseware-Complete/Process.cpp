@@ -3,10 +3,11 @@
 #include "MathUtils.h"
 #include "PrintCommand.h"
 
-Process::Process(int pid, RequirementFlags requirementFlags)
+Process::Process(int pid, String name, RequirementFlags requirementFlags)
 {
 	this->pid = pid;
-	this->commandIndex = 0;
+	this->name = name;
+	this->commandCounter = 0;
 	this->requirementFlags = requirementFlags;
 }
 
@@ -27,27 +28,38 @@ void Process::addCommand(ICommand::CommandType commandType)
 
 void Process::executeCurrentCommand() const
 {
-	this->commandList[this->commandIndex]->execute();
+	this->commandList[this->commandCounter]->execute();
 }
 
 void Process::moveToNextLine()
 {
-	this->commandIndex++;
+	this->commandCounter++;
 }
 
 bool Process::isFinished() const
 {
-	return this->commandIndex == this->commandList.size();
+	return this->commandCounter == this->commandList.size();
 }
 
 int Process::getRemainingTime() const
 {
-	return this->commandList.size() - this->commandIndex;
+	return this->commandList.size() - this->commandCounter;
 }
 
 int Process::getPID() const
 {
 	return this->pid;
+}
+
+String Process::getName() const
+{
+	return this->name;
+}
+
+Process::CommandInfo Process::getCurrentCommandInfo() const
+{
+	CommandInfo info = { this->commandCounter, static_cast<int>(this->commandList.size()) };
+	return info;
 }
 
 void Process::test_generateRandomCommands(int limit)

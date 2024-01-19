@@ -40,13 +40,37 @@ void AScheduler::stop()
 	this->running = false;
 }
 
-std::vector<AScheduler::ProcessTimeInfo> AScheduler::getAllProcessRemainingTime() const
+std::vector<AScheduler::ProcessInfo> AScheduler::getAllProcessRemainingTime() const
 {
-	std::vector<ProcessTimeInfo> ptList;
+	std::vector<ProcessInfo> ptList;
 	for (int i = 0; i < this->processList.size(); i++)
 	{
-		ProcessTimeInfo pt{ this->processList[i]->getPID(), this->processList[i]->getRemainingTime() };
+		ProcessInfo pt{ this->processList[i]->getPID(),
+			this->processList[i]->getName(),
+			this->processList[i]->getCommandCounter(),
+			this->processList[i]->getLinesOfCode(),
+			this->processList[i]->getRemainingTime() };
 		ptList.push_back(pt);
+	}
+
+	return ptList;
+}
+
+std::vector<AScheduler::ProcessInfo> AScheduler::getRunningProcessInfo() const
+{
+	std::vector<ProcessInfo> ptList;
+	for (int i = 0; i < this->processList.size(); i++)
+	{
+		if (this->processList[i]->getState() == Process::ProcessState::RUNNING || this->processList[i]->getState() == Process::READY)
+		{
+			ProcessInfo pt{ this->processList[i]->getPID(),
+							this->processList[i]->getName(),
+							this->processList[i]->getCPUCoreID(),
+							this->processList[i]->getCommandCounter(),
+							this->processList[i]->getLinesOfCode(),
+							this->processList[i]->getRemainingTime() };
+			ptList.push_back(pt);
+		}
 	}
 
 	return ptList;

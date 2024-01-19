@@ -26,8 +26,8 @@ void FCFSScheduler::execute()
 	}
 	else
 	{
-		// this->outputBuffer << FCFS_SCHEDULER_NAME << "- Waiting for available CPU" << std::endl;
-		// std::cout << this->outputBuffer.str() << std::endl;
+		this->outputBuffer << FCFS_SCHEDULER_NAME << "- Waiting for available CPU" << std::endl;
+		std::cout << this->outputBuffer.str() << std::endl;
 	}
 
 	// if (this->currentProcess == nullptr || this->currentProcess->isFinished())

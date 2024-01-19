@@ -81,8 +81,9 @@ String GlobalScheduler::generateProcessName()
 	return name;
 }
 
-String GlobalScheduler::generateReport()
+String GlobalScheduler::generateReport() const
 {
+	std::vector<AScheduler::ProcessInfo> runningList = this->scheduler->getRunningProcessInfo();
 	std::stringstream ss;
 
 	ss << String("CPU Utilization: 100%") << std::endl;
@@ -91,6 +92,22 @@ String GlobalScheduler::generateReport()
 
 	ss << String("--------------------------------------") << std::endl;
 	ss << String("Running processes:") << std::endl;
+	for(int i = 0; i < runningList.size(); i++)
+	{
+		ss << String("Name: ") << runningList[i].name << String(" | ");
+		if(runningList[i].cpuID < 0) //no core/isn't scheduled yet
+		{
+			ss << String("Core: N/A") << String(" | ");
+		}
+		else
+		{
+			ss << String("Core: ") << std::to_string(runningList[i].cpuID) << String(" | ");
+		}
+		
+		ss << std::to_string(runningList[i].lineCounter) << String(" / ") << runningList[i].linesOfCode << String(" | ");
+		ss << String("\n");
+	}
+
 	ss << String("\n");
 
 

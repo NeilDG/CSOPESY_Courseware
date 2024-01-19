@@ -34,13 +34,18 @@ public:
 	virtual void init() = 0;
 	virtual void execute() = 0;
 
-	struct ProcessTimeInfo
+	struct ProcessInfo
 	{
 		int pid;
+		String name;
+		int cpuID;
+		int lineCounter;
+		int linesOfCode;
 		int remainingTime;
 	};
 
-	std::vector<ProcessTimeInfo> getAllProcessRemainingTime() const;
+	std::vector<ProcessInfo> getAllProcessRemainingTime() const;
+	std::vector<ProcessInfo> getRunningProcessInfo() const;
 	String getName();
 	String getLatestMsg();
 

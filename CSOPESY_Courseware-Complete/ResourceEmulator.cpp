@@ -18,7 +18,7 @@ void ResourceEmulator::destroy()
 
 void ResourceEmulator::startAllCPUs()
 {
-	for (int i = 0; i < MAX_CPU_CORES; i++)
+	for (int i = 0; i < SchedulerType::MAX_CPU_CORES; i++)
 	{
 		this->workingCores[i]->start();
 		// std::cout << "Started CPU: " << i << std::endl;
@@ -32,8 +32,8 @@ bool ResourceEmulator::scheduleCPUWork(std::shared_ptr<Process> process)
 	if(this->hasAvailableCPU())
 	{
 		std::shared_ptr<CPUWorker> availableCore = this->findFirstAvailableCPU();
+		process->cpuCoreID = availableCore->cpuID;
 		availableCore->assignExecutable(process.get(), this);
-
 		this->mutex->release();
 		return true;
 	}
@@ -47,7 +47,7 @@ bool ResourceEmulator::scheduleCPUWork(std::shared_ptr<Process> process)
 
 bool ResourceEmulator::hasAvailableCPU()
 {
-	for (int i = 0; i < MAX_CPU_CORES; i++)
+	for (int i = 0; i < SchedulerType::MAX_CPU_CORES; i++)
 	{
 		if(this->workingCores[i]->isAvailable())
 		{
@@ -68,7 +68,7 @@ void ResourceEmulator::onActionFinished(int cpuID)
 
 ResourceEmulator::ResourceEmulator()
 {
-	for(int i = 0; i < MAX_CPU_CORES; i++)
+	for(int i = 0; i < SchedulerType::MAX_CPU_CORES; i++)
 	{
 		this->workingCores[i] = std::make_shared<CPUWorker>(i);
 	}
@@ -77,7 +77,7 @@ ResourceEmulator::ResourceEmulator()
 
 std::shared_ptr<CPUWorker> ResourceEmulator::findFirstAvailableCPU()
 {
-	for (int i = 0; i < MAX_CPU_CORES; i++)
+	for (int i = 0; i < SchedulerType::MAX_CPU_CORES; i++)
 	{
 		if(this->workingCores[i]->isAvailable())
 		{

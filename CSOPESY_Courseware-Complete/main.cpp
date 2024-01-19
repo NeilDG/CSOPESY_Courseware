@@ -37,15 +37,22 @@ int main()
     MessageBuffer::initialize();
     ResourceEmulator::initialize();
     MemoryManager::initialize();
-    
+
+    ResourceEmulator::getInstance()->startAllCPUs();
+    GlobalScheduler::getInstance()->test_createRandomProcesses(50);
     bool running = true;
     while(running)
     {
         ConsoleManager::getInstance()->process();
         ConsoleManager::getInstance()->drawConsole();
-    
+        std::thread([]()
+        {
+        	GlobalScheduler::getInstance()->tick();
+		}).detach();
+        
+
         running = ConsoleManager::getInstance()->isRunning();
-    }
+    } 
 
     // MemoryManager::test_MemoryAllocation();
 

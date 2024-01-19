@@ -16,7 +16,7 @@ public:
 	std::shared_ptr<Process> findProcess(String name) const;
 	static String generateProcessName();
 
-	static String generateReport();
+	String generateReport() const;
 
 	void test_createRandomProcesses(int limit);
 

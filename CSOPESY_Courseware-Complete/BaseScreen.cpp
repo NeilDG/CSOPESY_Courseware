@@ -55,7 +55,6 @@ void BaseScreen::printProcessInfo() const
 
 	std::cout << std::endl;
 
-	Process::CommandInfo cInfo = this->attachedProcess->getCurrentCommandInfo();
-	std::cout << "Current instruction line: " << cInfo.currentCounter << std::endl;
-	std::cout << "Lines of code: " << cInfo.linesOfCode << std::endl;
+	std::cout << "Current instruction line: " << this->attachedProcess->getCommandCounter() << std::endl;
+	std::cout << "Lines of code: " << this->attachedProcess->getLinesOfCode() << std::endl;
 }

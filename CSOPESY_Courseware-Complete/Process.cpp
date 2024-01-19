@@ -9,6 +9,7 @@ Process::Process(int pid, String name, RequirementFlags requirementFlags)
 	this->name = name;
 	this->commandCounter = 0;
 	this->requirementFlags = requirementFlags;
+	this->currentState = ProcessState::READY;
 }
 
 void Process::addCommand(ICommand::CommandType commandType)
@@ -46,20 +47,34 @@ int Process::getRemainingTime() const
 	return this->commandList.size() - this->commandCounter;
 }
 
+int Process::getCommandCounter() const
+{
+	return this->commandCounter;
+}
+
+int Process::getLinesOfCode() const
+{
+	return this->commandList.size();
+}
+
 int Process::getPID() const
 {
 	return this->pid;
 }
 
+int Process::getCPUCoreID() const
+{
+	return this->cpuCoreID;
+}
+
+Process::ProcessState Process::getState() const
+{
+	return this->currentState;
+}
+
 String Process::getName() const
 {
 	return this->name;
-}
-
-Process::CommandInfo Process::getCurrentCommandInfo() const
-{
-	CommandInfo info = { this->commandCounter, static_cast<int>(this->commandList.size()) };
-	return info;
 }
 
 void Process::test_generateRandomCommands(int limit)

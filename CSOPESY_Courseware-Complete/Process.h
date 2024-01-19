@@ -15,10 +15,12 @@ public:
 		int memoryRequired;
 	};
 
-	struct CommandInfo
+	enum ProcessState
 	{
-		int currentCounter;
-		int linesOfCode;
+		READY,
+		RUNNING,
+		WAITING,
+		FINISHED
 	};
 
 	Process(int pid, String name, RequirementFlags requirementFlags);
@@ -28,9 +30,12 @@ public:
 
 	bool isFinished() const;
 	int getRemainingTime() const;
+	int getCommandCounter() const;
+	int getLinesOfCode() const;
 	int getPID() const;
+	int getCPUCoreID() const;
+	ProcessState getState() const;
 	String getName() const;
-	CommandInfo getCurrentCommandInfo() const;
 
 	void test_generateRandomCommands(int limit);
 
@@ -41,6 +46,10 @@ private:
 	CommandList commandList;
 
 	int commandCounter;
+	int cpuCoreID = -1;
 	RequirementFlags requirementFlags;
+	ProcessState currentState;
+
+	friend class ResourceEmulator;
 };
 

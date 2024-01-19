@@ -17,6 +17,7 @@ struct SchedulerType
 {
 	//0 = debug, 1 = FCFS, 2 = SJF (No-prempt), 3 = SJF (Preempt), 4 = Round-robin
 	static constexpr int SCHEDULER_TYPE = 1;
+	static constexpr int MAX_CPU_CORES = 4;
 };
 
 struct ProcessRequirementFlags_CONFIG

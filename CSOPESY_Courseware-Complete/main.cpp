@@ -45,10 +45,10 @@ int main()
     {
         ConsoleManager::getInstance()->process();
         ConsoleManager::getInstance()->drawConsole();
-        std::thread([]()
-        {
-        	GlobalScheduler::getInstance()->tick();
-		}).detach();
+  //       std::thread([]()
+  //       {
+  //       	GlobalScheduler::getInstance()->tick();
+		// }).detach();
         
 
         running = ConsoleManager::getInstance()->isRunning();

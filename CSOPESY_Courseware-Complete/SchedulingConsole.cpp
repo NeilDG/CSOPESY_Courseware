@@ -19,8 +19,7 @@ SchedulingConsole::SchedulingConsole() : AConsole(SCHEDULING_CONSOLE)
         this->scheduler = std::make_shared<DebugScheduler>();
     }
 
-    this->scheduler->test_storeRandomProcessesInQueue(50);
-
+    // this->scheduler->test_storeRandomProcessesInQueue(50);
     // this->chosenConsole = std::make_unique<Scheduling_UIVersion1>(this->scheduler);
     this->chosenConsole = std::make_unique<Scheduling_UIVersion2>(this->scheduler);
 }
@@ -160,7 +159,7 @@ void Scheduling_UIVersion2::display()
         std::cout << "***************************************************************************************************" << std::endl;
         this->ui2flags.printHeader = false;
     }
-    std::vector<DebugScheduler::ProcessTimeInfo> ptList = this->scheduler->getAllProcessRemainingTime();
+    std::vector<DebugScheduler::ProcessInfo> ptList = this->scheduler->getAllProcessRemainingTime();
 
     std::cout << "Enter command: ";
     String command;
@@ -171,7 +170,7 @@ void Scheduling_UIVersion2::display()
         std::cout << "One bar means one command/remaining time." << std::endl;
         for (int i = 0; i < ptList.size(); i++)
         {
-            DebugScheduler::ProcessTimeInfo ptInfo = ptList[i];
+            DebugScheduler::ProcessInfo ptInfo = ptList[i];
             std::cout << "PID:" << ptInfo.pid << " ";
 
             if (ptInfo.remainingTime > 0)

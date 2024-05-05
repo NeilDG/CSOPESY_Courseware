@@ -14,7 +14,6 @@ public:
 /**
  * \brief A class that emulates resources such as CPU and available memory.
  */
-static const int MAX_CPU_CORES = 4;
 class ResourceEmulator : public IActionFinished
 {
 public:

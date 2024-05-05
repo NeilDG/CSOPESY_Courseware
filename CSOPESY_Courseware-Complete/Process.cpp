@@ -3,10 +3,13 @@
 #include "MathUtils.h"
 #include "PrintCommand.h"
 
-Process::Process(int pid)
+Process::Process(int pid, String name, RequirementFlags requirementFlags)
 {
 	this->pid = pid;
-	this->commandIndex = 0;
+	this->name = name;
+	this->commandCounter = 0;
+	this->requirementFlags = requirementFlags;
+	this->currentState = ProcessState::READY;
 }
 
 void Process::addCommand(ICommand::CommandType commandType)
@@ -26,27 +29,52 @@ void Process::addCommand(ICommand::CommandType commandType)
 
 void Process::executeCurrentCommand() const
 {
-	this->commandList[this->commandIndex]->execute();
+	this->commandList[this->commandCounter]->execute();
 }
 
 void Process::moveToNextLine()
 {
-	this->commandIndex++;
+	this->commandCounter++;
 }
 
 bool Process::isFinished() const
 {
-	return this->commandIndex == this->commandList.size();
+	return this->commandCounter == this->commandList.size();
 }
 
 int Process::getRemainingTime() const
 {
-	return this->commandList.size() - this->commandIndex;
+	return this->commandList.size() - this->commandCounter;
+}
+
+int Process::getCommandCounter() const
+{
+	return this->commandCounter;
+}
+
+int Process::getLinesOfCode() const
+{
+	return this->commandList.size();
 }
 
 int Process::getPID() const
 {
 	return this->pid;
+}
+
+int Process::getCPUCoreID() const
+{
+	return this->cpuCoreID;
+}
+
+Process::ProcessState Process::getState() const
+{
+	return this->currentState;
+}
+
+String Process::getName() const
+{
+	return this->name;
 }
 
 void Process::test_generateRandomCommands(int limit)

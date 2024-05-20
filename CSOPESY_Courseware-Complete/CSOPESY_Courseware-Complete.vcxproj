@@ -149,6 +149,7 @@
     <ClCompile Include="MathUtils.cpp" />
     <ClCompile Include="MemoryManager.cpp" />
     <ClCompile Include="MemorySimulationConsole.cpp" />
+    <ClCompile Include="MemoryTestRun.cpp" />
     <ClCompile Include="MessageBuffer.cpp" />
     <ClCompile Include="PrintCommand.cpp" />
     <ClCompile Include="Process.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="MathUtils.h" />
     <ClInclude Include="MemoryManager.h" />
     <ClInclude Include="MemorySimulationConsole.h" />
+    <ClInclude Include="MemoryTestRun.h" />
     <ClInclude Include="MessageBuffer.h" />
     <ClInclude Include="PrintCommand.h" />
     <ClInclude Include="Process.h" />

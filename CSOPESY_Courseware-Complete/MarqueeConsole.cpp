@@ -18,11 +18,11 @@ void MarqueeConsole::onEnabled()
 void MarqueeConsole::display()
 {
     // system("cls"); // Clear screen
-    // this->setCursorPosition(0, 0);
+    // ConsoleManager::getInstance()->setCursorPosition(0, 0);
     // std::cout << "*****************************************" << std::endl;
     // std::cout << "* Displaying a marquee console! *" << std::endl;
     // std::cout << "*****************************************" << std::endl;
-    //
+    
     // this->move();
     // this->setCursorPosition(x, y);
     // std::cout << HELLO_WORLD_STRING;

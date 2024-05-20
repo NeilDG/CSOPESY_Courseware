@@ -14,6 +14,7 @@
 #include "MemoryManager.h"
 #include "MessageBuffer.h"
 #include "ResourceEmulator.h"
+#include "MemoryTestRun.h"
 
 //columns x rows
 void SetConsoleWindowSize(int width, int height) {
@@ -54,6 +55,7 @@ int main()
         running = ConsoleManager::getInstance()->isRunning();
     } 
 
+    MemoryTestRun::run();
     // MemoryManager::test_MemoryAllocation();
 
     MemoryManager::destroy();

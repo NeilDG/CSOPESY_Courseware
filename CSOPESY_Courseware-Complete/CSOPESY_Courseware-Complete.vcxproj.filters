@@ -77,6 +77,9 @@
     <ClCompile Include="GlobalScheduler.cpp">
       <Filter>CPU</Filter>
     </ClCompile>
+    <ClCompile Include="MemoryTestRun.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="FileSystem">
@@ -209,6 +212,9 @@
     </ClInclude>
     <ClInclude Include="GlobalScheduler.h">
       <Filter>CPU</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryTestRun.h">
+      <Filter>Memory</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
